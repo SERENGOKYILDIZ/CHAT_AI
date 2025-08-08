@@ -1,0 +1,177 @@
+{
+  "greeting": {
+    "patterns": [
+      "Merhaba",
+      "Selam",
+      "Günaydın",
+      "İyi günler",
+      "Selamlar",
+      "Merhaba, nasılsınız?",
+      "Selam, bugün nasıl gidiyor?",
+      "Günaydın, size nasıl yardımcı olabilirim?",
+      "İyi günler, hoş geldiniz!",
+      "Merhaba, ne yapıyorsunuz?",
+      "Selam, nasılsın?",
+      "Merhaba, iyi misin?",
+      "Günaydın, nasılsınız?",
+      "İyi günler, nasıl gidiyor?"
+    ],
+    "responses": [
+      "Merhaba! Ben AI Asistan 👋 Size nasıl yardımcı olabilirim?",
+      "Selam! Bugün size nasıl yardımcı olabilirim? 😊",
+      "Günaydın! Size nasıl hizmet verebilirim?",
+      "Merhaba! Hoş geldiniz. Size nasıl yardımcı olabilirim?",
+      "Selam! Ben AI asistanınız, size nasıl yardımcı olabilirim?",
+      "Merhaba! Ben AI Asistan, size yardımcı olmaya hazırım! 😊"
+    ]
+  },
+  "chatbot_identity": {
+    "patterns": [
+      "Sen kimsin?",
+      "Adın ne?",
+      "Kimsin sen?",
+      "Senin adın ne?",
+      "Kendini tanıt",
+      "Sen ne yapıyorsun?",
+      "Senin görevin ne?",
+      "Sen bir bot musun?",
+      "Sen AI mısın?",
+      "Senin adın nedir?",
+      "Kimsin?",
+      "Sen kim?",
+      "Adını söyler misin?",
+      "Senin ismin ne?",
+      "Kendini tanıtır mısın?",
+      "Sen ne tür bir yapay zekasın?",
+      "Senin türün ne?",
+      "Sen hangi teknoloji ile yapıldın?",
+      "Sen hangi dilde yazıldın?",
+      "Sen Python ile mi yazıldın?"
+    ],
+    "responses": [
+      "Ben AI Asistan, gelişmiş bir yapay zeka chatbot'uyum. Python ve makine öğrenmesi teknolojileri ile geliştirildim. Size günlük konuşmalar, teknik destek, öğrenme yardımı ve daha birçok konuda destek olabilirim!",
+      "Adım AI Asistan. Ben Python ile geliştirilmiş, makine öğrenmesi kullanan gelişmiş bir chatbot'um. Size nasıl yardımcı olabilirim?",
+      "Ben AI Asistan! Gelişmiş NLP ve ML teknolojileri ile donatılmış bir yapay zeka asistanıyım. Size her konuda yardımcı olmaya hazırım.",
+      "Merhaba! Ben AI Asistan. Python, scikit-learn ve Flask teknolojileri ile geliştirilmiş akıllı bir chatbot'um. Size nasıl yardımcı olabilirim?",
+      "Ben AI Asistan! Makine öğrenmesi ve doğal dil işleme yeteneklerimle size en iyi hizmeti vermeye çalışıyorum. Hangi konuda yardıma ihtiyacınız var?"
+    ]
+  },
+  "technical_support": {
+    "patterns": [
+      "Teknik sorun yaşıyorum",
+      "Sistem hatası alıyorum",
+      "Yazılım problemi var",
+      "Kod hatası",
+      "Debug yapmam gerekiyor",
+      "Program çalışmıyor",
+      "Hata alıyorum",
+      "Kod problemi",
+      "Yazılım hatası",
+      "Sistem çöktü",
+      "Bilgisayar sorunu",
+      "Yazılım hatası var",
+      "Program çalışmıyor",
+      "Kod çalışmıyor",
+      "Hata mesajı alıyorum"
+    ],
+    "responses": [
+      "Teknik sorununuzu detaylandırabilir misiniz? Size yardımcı olmaya çalışacağım.",
+      "Hangi teknoloji ile ilgili sorun yaşıyorsunuz?",
+      "Hata mesajını paylaşabilir misiniz?",
+      "Sorununuzu adım adım açıklayabilir misiniz?",
+      "Hangi programlama dili kullanıyorsunuz? Size daha spesifik yardım edebilirim.",
+      "Teknik sorununuzu çözmek için size yardımcı olacağım! 💻"
+    ]
+  },
+  "learning_request": {
+    "patterns": [
+      "Yeni bir şey öğrenmek istiyorum",
+      "Eğitim almak istiyorum",
+      "Kurs arıyorum",
+      "Öğrenme kaynakları",
+      "Tutorial istiyorum",
+      "Öğrenmek istiyorum",
+      "Eğitim kaynağı",
+      "Ders almak istiyorum",
+      "Öğrenme materyali",
+      "Kurs önerisi",
+      "Öğrenmek istiyorum",
+      "Eğitim almak istiyorum",
+      "Yeni şeyler öğrenmek",
+      "Kurs bulmak istiyorum",
+      "Eğitim materyali arıyorum"
+    ],
+    "responses": [
+      "Hangi konuda öğrenmek istiyorsunuz? Size uygun kaynaklar önerebilirim.",
+      "Hangi seviyede bilginiz var? Başlangıç, orta, ileri?",
+      "Öğrenme hedefiniz nedir? Size uygun eğitim programı önerebilirim.",
+      "Hangi alanda kendinizi geliştirmek istiyorsunuz?",
+      "Programlama, tasarım, iş dünyası... Hangi alan ilginizi çekiyor?",
+      "Öğrenme konusunda size yardımcı olmaktan mutluluk duyarım! 📚"
+    ]
+  },
+  "help_request": {
+    "patterns": [
+      "Yardım",
+      "Yardım et",
+      "Nasıl kullanılır?",
+      "Kullanım kılavuzu",
+      "Ne yapabilirsin?",
+      "Özelliklerin neler?",
+      "Neler yapabilirsin?",
+      "Yardıma ihtiyacım var",
+      "Bana yardım et",
+      "Nasıl çalışıyorsun?",
+      "Senin özelliklerin neler?",
+      "Ne tür sorular sorabilirim?",
+      "Hangi konularda yardım edebilirsin?"
+    ],
+    "responses": [
+      "Size şu konularda yardımcı olabilirim: Günlük sohbet, teknik destek, öğrenme yardımı, matematik hesaplamaları ve daha fazlası! Ne konuda yardıma ihtiyacınız var?",
+      "Ben AI Asistan! Size günlük konuşmalar, teknik sorunlar, öğrenme konuları ve matematik işlemleri konularında yardımcı olabilirim. Hangi konuda destek istiyorsunuz?",
+      "Size yardımcı olabileceğim alanlar: Sohbet, teknik destek, eğitim, hesaplama ve daha fazlası. Hangi konuda yardım istiyorsunuz?",
+      "Ben çok yönlü bir AI asistanıyım! Sohbet edebilir, teknik sorunlarınızı çözebilir, öğrenme konularında yardım edebilir ve matematik işlemleri yapabilirim. Ne konuda yardıma ihtiyacınız var?"
+    ]
+  },
+  "math_calculation": {
+    "patterns": [
+      "Hesapla",
+      "Matematik",
+      "Hesaplama",
+      "Toplama",
+      "Çıkarma",
+      "Çarpma",
+      "Bölme",
+      "Matematik işlemi",
+      "Hesaplama yap",
+      "Sayısal işlem"
+    ],
+    "responses": [
+      "Matematik işlemi yapmak için lütfen işlemi yazın (örnek: 5 + 3)",
+      "Hangi matematik işlemini yapmak istiyorsunuz?",
+      "Matematik hesaplaması için işlemi belirtin",
+      "Hesaplama yapmak için işlemi yazın"
+    ]
+  },
+  "goodbye": {
+    "patterns": [
+      "Görüşürüz",
+      "Hoşça kal",
+      "İyi günler",
+      "Güle güle",
+      "Bye",
+      "Çıkış",
+      "Vedalaşma",
+      "Görüşmek üzere",
+      "İyi akşamlar",
+      "İyi geceler"
+    ],
+    "responses": [
+      "Görüşürüz! Tekrar görüşmek üzere!",
+      "Hoşça kalın! İyi günler dilerim!",
+      "Güle güle! Tekrar bekleriz!",
+      "İyi günler! Başka bir sorunuz olursa buradayım!",
+      "Görüşmek üzere! Size yardımcı olmaktan mutluluk duyarım!"
+    ]
+  }
+}

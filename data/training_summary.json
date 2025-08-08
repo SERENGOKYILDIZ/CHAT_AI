@@ -1,0 +1,49 @@
+{
+  "training_timestamp": "2025-08-08T14:31:02.448593",
+  "total_intents": 7,
+  "training_results": {
+    "small": {
+      "accuracy": 0.6666666666666666,
+      "cv_mean": 0.6185770750988141,
+      "cv_std": 0.09937914934173435,
+      "total_samples": 86,
+      "unique_intents": 7,
+      "model_size": "small",
+      "training_timestamp": "2025-08-08T14:31:00.362589",
+      "performance_level": "Poor"
+    },
+    "medium": {
+      "accuracy": 0.6666666666666666,
+      "cv_mean": 0.6197802197802198,
+      "cv_std": 0.1556953232810258,
+      "total_samples": 86,
+      "unique_intents": 7,
+      "model_size": "medium",
+      "training_timestamp": "2025-08-08T14:31:00.479840",
+      "performance_level": "Poor"
+    },
+    "large": {
+      "accuracy": 0.7222222222222222,
+      "cv_mean": 0.6637362637362637,
+      "cv_std": 0.1695800591157585,
+      "total_samples": 86,
+      "unique_intents": 7,
+      "model_size": "large",
+      "training_timestamp": "2025-08-08T14:31:01.154312",
+      "performance_level": "Fair"
+    },
+    "enterprise": {
+      "accuracy": 0.7222222222222222,
+      "cv_mean": 0.7047619047619047,
+      "cv_std": 0.1441213900040148,
+      "total_samples": 86,
+      "unique_intents": 7,
+      "model_size": "enterprise",
+      "training_timestamp": "2025-08-08T14:31:02.353299",
+      "performance_level": "Fair"
+    }
+  },
+  "best_model": "large",
+  "best_accuracy": 0.7222222222222222,
+  "test_messages": 6
+}

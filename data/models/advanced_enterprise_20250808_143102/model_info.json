@@ -1,0 +1,19 @@
+{
+  "model_size": "enterprise",
+  "config": {
+    "max_features": 10000,
+    "ngram_range": [
+      1,
+      5
+    ],
+    "ensemble_count": 7,
+    "cv_folds": 10
+  },
+  "data_info": {
+    "total_samples": 86,
+    "train_samples": 68,
+    "test_samples": 18,
+    "unique_intents": 7
+  },
+  "training_timestamp": "2025-08-08T14:31:02.353299"
+}

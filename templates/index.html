@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .chat-container {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .message {
+            margin: 10px;
+            padding: 15px;
+            border-radius: 15px;
+            max-width: 80%;
+            animation: fadeInUp 0.3s ease;
+        }
+        
+        .user-message {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            margin-left: auto;
+            box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+        }
+        
+        .bot-message {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            color: #333;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .personality-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(102,126,234,0.3);
+        }
+        
+        .stats-card {
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 10px;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #007bff;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes typing {
+            0%, 80%, 100% {
+                transform: scale(0);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .btn-personality {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-personality:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+            color: white;
+        }
+        
+        .input-group .form-control {
+            border-radius: 25px 0 0 25px;
+            border: 2px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102,126,234,0.25);
+        }
+        
+        .input-group .btn {
+            border-radius: 0 25px 25px 0;
+            border: 2px solid #007bff;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            transition: all 0.3s ease;
+        }
+        
+        .input-group .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+        }
+        
+        .scrollbar-custom::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .scrollbar-custom::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .scrollbar-custom::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+        
+        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+            background: #764ba2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Header -->
+                <div class="text-center mb-4">
+                    <h1 class="text-white mb-2">
+                        <i class="fas fa-robot me-3"></i>AI Asistan
+                    </h1>
+                    <p class="text-white-50">{{ description }} v{{ version }}</p>
+                </div>
+                
+                <div class="row">
+                    <!-- Chat Area -->
+                    <div class="col-lg-8">
+                        <div class="chat-container p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-comments text-primary me-2"></i>
+                                    Sohbet
+                                </h5>
+                                <div>
+                                    <button class="btn btn-sm btn-outline-primary me-2" onclick="refreshPersonality()">
+                                        <i class="fas fa-sync-alt"></i> Yenile
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-warning" onclick="clearChat()">
+                                        <i class="fas fa-trash"></i> Temizle
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div id="chatMessages" class="mb-3 scrollbar-custom" style="height: 400px; overflow-y: auto;">
+                                <div class="message bot-message">
+                                    <i class="fas fa-robot me-2"></i>
+                                    Merhaba! Ben AI Asistan. Size nasıl yardımcı olabilirim? 😊
+                                </div>
+                            </div>
+                            
+                            <div id="typingIndicator" class="typing-indicator" style="display: none;">
+                                <div class="typing-dot"></div>
+                                <div class="typing-dot"></div>
+                                <div class="typing-dot"></div>
+                                <span class="ms-2 text-muted">Yazıyor...</span>
+                            </div>
+                            
+                            <div class="input-group">
+                                <input type="text" id="messageInput" class="form-control" placeholder="Mesajınızı yazın...">
+                                <button class="btn btn-primary" onclick="sendMessage()" id="sendButton">
+                                    <i class="fas fa-paper-plane"></i> Gönder
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Personality Panel -->
+                    <div class="col-lg-4">
+                        <div class="personality-card p-4 mb-3">
+                            <h6 class="mb-3">
+                                <i class="fas fa-user-circle me-2"></i>
+                                Kişilik Bilgileri
+                            </h6>
+                            <div id="personalityInfo">
+                                <div class="text-center">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card p-3">
+                            <h6 class="mb-3">
+                                <i class="fas fa-chart-bar me-2"></i>
+                                İstatistikler
+                            </h6>
+                            <div id="statsInfo">
+                                <div class="text-center">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let isTyping = false;
+        
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            if (!message || isTyping) return;
+            
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            fetch('/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideTypingIndicator();
+                if (data.success) {
+                    addMessage(data.response, 'bot');
+                    updatePersonalityInfo(data.personality_info);
+                    updateStats(data.stats);
+                } else {
+                    addMessage('Üzgünüm, bir hata oluştu.', 'bot');
+                }
+            })
+            .catch(error => {
+                hideTypingIndicator();
+                addMessage('Bağlantı hatası oluştu.', 'bot');
+            });
+        }
+        
+        function addMessage(text, sender) {
+            const messages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            
+            const icon = sender === 'user' ? 'fas fa-user' : 'fas fa-robot';
+            messageDiv.innerHTML = `<i class="${icon} me-2"></i>${text}`;
+            
+            messages.appendChild(messageDiv);
+            messages.scrollTop = messages.scrollHeight;
+        }
+        
+        function showTypingIndicator() {
+            isTyping = true;
+            document.getElementById('typingIndicator').style.display = 'flex';
+            document.getElementById('sendButton').disabled = true;
+            document.getElementById('messageInput').disabled = true;
+        }
+        
+        function hideTypingIndicator() {
+            isTyping = false;
+            document.getElementById('typingIndicator').style.display = 'none';
+            document.getElementById('sendButton').disabled = false;
+            document.getElementById('messageInput').disabled = false;
+            document.getElementById('messageInput').focus();
+        }
+        
+        function updatePersonalityInfo(personality) {
+            if (!personality) return;
+            
+            const infoDiv = document.getElementById('personalityInfo');
+            infoDiv.innerHTML = `
+                <div class="mb-2">
+                    <strong>Ad:</strong> ${personality.name}
+                </div>
+                <div class="mb-2">
+                    <strong>Versiyon:</strong> ${personality.version}
+                </div>
+                <div class="mb-2">
+                    <strong>Ruh Hali:</strong> ${personality.mood}
+                </div>
+                <div class="mb-2">
+                    <strong>Enerji:</strong> ${personality.energy_level}/10
+                </div>
+                <div class="mb-2">
+                    <strong>Heyecan:</strong> ${personality.enthusiasm}/10
+                </div>
+                <div class="mb-2">
+                    <strong>İletişim:</strong> ${personality.communication_style}
+                </div>
+                <div class="mb-2">
+                    <strong>Konuşma:</strong> ${personality.conversation_count}
+                </div>
+            `;
+        }
+        
+        function updateStats(stats) {
+            if (!stats) return;
+            
+            const statsDiv = document.getElementById('statsInfo');
+            statsDiv.innerHTML = `
+                <div class="mb-2">
+                    <strong>Toplam İstek:</strong> ${stats.total_requests}
+                </div>
+                <div class="mb-2">
+                    <strong>Başarılı:</strong> ${stats.successful_requests}
+                </div>
+                <div class="mb-2">
+                    <strong>Ortalama Süre:</strong> ${stats.average_response_time}s
+                </div>
+            `;
+        }
+        
+        function refreshPersonality() {
+            fetch('/api/personality/info')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Kişilik bilgisi hatası:', data.error);
+                    } else {
+                        updatePersonalityInfo(data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Kişilik bilgisi yükleme hatası:', error);
+                });
+        }
+        
+        function clearChat() {
+            const messages = document.getElementById('chatMessages');
+            messages.innerHTML = `
+                <div class="message bot-message">
+                    <i class="fas fa-robot me-2"></i>
+                    Sohbet temizlendi. Size nasıl yardımcı olabilirim? 😊
+                </div>
+            `;
+        }
+        
+        // Event listeners
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        // Load initial data
+        document.addEventListener('DOMContentLoaded', function() {
+            refreshPersonality();
+            
+            fetch('/api/stats')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('İstatistik hatası:', data.error);
+                    } else {
+                        updateStats(data);
+                    }
+                })
+                .catch(error => {
+                    console.error('İstatistik yükleme hatası:', error);
+                });
+        });
+    </script>
+</body>
+</html>
