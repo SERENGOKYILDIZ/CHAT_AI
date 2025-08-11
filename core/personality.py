@@ -330,3 +330,7 @@ class PersonalityManager:
     def get_personality_summary(self) -> str:
         """Kişilik özetini getir"""
         return self.personality.get_personality_summary()
+    
+    def get_personality(self) -> Dict:
+        """Kişilik bilgilerini getir (for backward compatibility)"""
+        return self.personality.get_personality_info()

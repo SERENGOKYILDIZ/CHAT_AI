@@ -51,20 +51,20 @@ class WebDesignManager:
 </head>
 <body>
     <div class="container-fluid py-4">
-        <div class="row justify-content-center">
+            <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="chat-container p-4">
                     <div class="text-center mb-4">
                         <h1><i class="fas fa-robot text-primary"></i> AI Asistan</h1>
                         <p class="text-muted">Gelişmiş Yapay Zeka v{self.version}</p>
                     </div>
-                    
+
                     <div id="chatMessages" class="mb-3" style="height: 400px; overflow-y: auto;">
-                        <div class="message bot-message">
+                                <div class="message bot-message">
                             <i class="fas fa-robot"></i> Merhaba! Ben AI Asistan. Size nasıl yardımcı olabilirim? 😊
                         </div>
                     </div>
-                    
+
                     <div class="input-group">
                         <input type="text" id="messageInput" class="form-control" placeholder="Mesajınızı yazın...">
                         <button class="btn btn-primary" onclick="sendMessage()">
@@ -75,7 +75,7 @@ class WebDesignManager:
             </div>
         </div>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function sendMessage() {{
@@ -87,9 +87,9 @@ class WebDesignManager:
             input.value = '';
             
             fetch('/chat', {{
-                method: 'POST',
+                        method: 'POST',
                 headers: {{ 'Content-Type': 'application/json' }},
-                body: JSON.stringify({{ message: message }})
+                        body: JSON.stringify({{ message: message }})
             }})
             .then(response => response.json())
             .then(data => {{

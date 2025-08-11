@@ -2,8 +2,8 @@
   "name": "AI Asistan",
   "version": "2.0",
   "personality_type": "Yardımsever ve Bilgili",
-  "mood": "düşünceli",
-  "energy_level": 7,
+  "mood": "mutlu",
+  "energy_level": 5,
   "enthusiasm": 9,
   "communication_style": "sıcak ve profesyonel",
   "formality_level": 3,
@@ -116,8 +116,528 @@
       "intent": "unknown",
       "mood": "düşünceli",
       "energy": 7
+    },
+    {
+      "timestamp": "2025-08-08T14:50:07.669248",
+      "user_message": "Merhaba",
+      "bot_response": "Anlıyorum, bu konu hakkında düşünüyorum... 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 7
+    },
+    {
+      "timestamp": "2025-08-08T14:50:10.713365",
+      "user_message": "Sen kimsin?",
+      "bot_response": "İlginç bir soru, biraz daha detay verebilir misiniz? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 7
+    },
+    {
+      "timestamp": "2025-08-08T14:50:13.779151",
+      "user_message": "Adın ne?",
+      "bot_response": "Anlıyorum, bu konu hakkında düşünüyorum... 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 7
+    },
+    {
+      "timestamp": "2025-08-08T14:50:16.825692",
+      "user_message": "5 + 3",
+      "bot_response": "5 + 3 = 8 ✅ 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 7
+    },
+    {
+      "timestamp": "2025-08-08T14:50:19.871725",
+      "user_message": "Yardım",
+      "bot_response": "İlginç bir soru, biraz daha detay verebilir misiniz? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 7
+    },
+    {
+      "timestamp": "2025-08-08T14:50:22.933564",
+      "user_message": "Teknik sorun yaşıyorum",
+      "bot_response": "Bu konu hakkında size yardımcı olmaya çalışıyorum! 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 7
+    },
+    {
+      "timestamp": "2025-08-08T14:50:25.996796",
+      "user_message": "Görüşürüz",
+      "bot_response": "Anlıyorum, bu konu hakkında düşünüyorum... 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 6
+    },
+    {
+      "timestamp": "2025-08-08T14:56:13.132434",
+      "user_message": "Merhaba",
+      "bot_response": "Günaydın! Size nasıl hizmet verebilirim? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 6
+    },
+    {
+      "timestamp": "2025-08-08T14:56:16.165499",
+      "user_message": "Sen kimsin?",
+      "bot_response": "Ben AI Asistan! Makine öğrenmesi ve doğal dil işleme yeteneklerimle size en iyi hizmeti vermeye çalışıyorum. Hangi konuda yardıma ihtiyacınız var? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 6
+    },
+    {
+      "timestamp": "2025-08-08T14:56:19.231475",
+      "user_message": "Adın ne?",
+      "bot_response": "Ben AI Asistan! Makine öğrenmesi ve doğal dil işleme yeteneklerimle size en iyi hizmeti vermeye çalışıyorum. Hangi konuda yardıma ihtiyacınız var? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 6
+    },
+    {
+      "timestamp": "2025-08-08T15:13:54.551108",
+      "user_message": "selam",
+      "bot_response": "Selam! Bugün size nasıl yardımcı olabilirim? 😊 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 6
+    },
+    {
+      "timestamp": "2025-08-08T15:13:57.527086",
+      "user_message": "adın ne",
+      "bot_response": "Ben AI Asistan, gelişmiş bir yapay zeka chatbot'uyum. Python ve makine öğrenmesi teknolojileri ile geliştirildim. Size günlük konuşmalar, teknik destek, öğrenme yardımı ve daha birçok konuda destek olabilirim! 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 6
+    },
+    {
+      "timestamp": "2025-08-08T15:14:06.366895",
+      "user_message": "Nasılsın?",
+      "bot_response": "Size en iyi şekilde yardımcı olmaya çalışıyorum! 😊 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 6
+    },
+    {
+      "timestamp": "2025-08-08T15:14:19.925952",
+      "user_message": "Bana kendinden bahset",
+      "bot_response": "Bu konu hakkında size yardımcı olmaya çalışıyorum! 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 6
+    },
+    {
+      "timestamp": "2025-08-08T15:14:24.731819",
+      "user_message": "konuş",
+      "bot_response": "İlginç bir soru, biraz daha detay verebilir misiniz? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 6
+    },
+    {
+      "timestamp": "2025-08-08T15:14:41.120515",
+      "user_message": "sen kimsin",
+      "bot_response": "Merhaba! Ben AI Asistan. Python, scikit-learn ve Flask teknolojileri ile geliştirilmiş akıllı bir chatbot'um. Size nasıl yardımcı olabilirim? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 6
+    },
+    {
+      "timestamp": "2025-08-08T15:14:49.663924",
+      "user_message": "daha da akıllı ol",
+      "bot_response": "İlginç bir soru, biraz daha detay verebilir misiniz? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 6
+    },
+    {
+      "timestamp": "2025-08-08T15:14:53.645473",
+      "user_message": "akıllı olmak",
+      "bot_response": "Bu konuda size nasıl yardımcı olabilirim? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 6
+    },
+    {
+      "timestamp": "2025-08-08T15:31:49.531419",
+      "user_message": "Merhaba",
+      "bot_response": "Selam! Ben AI asistanınız, size nasıl yardımcı olabilirim? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 6
+    },
+    {
+      "timestamp": "2025-08-08T15:31:52.569036",
+      "user_message": "Sen kimsin?",
+      "bot_response": "Ben AI Asistan! Gelişmiş NLP ve ML teknolojileri ile donatılmış bir yapay zeka asistanıyım. Size her konuda yardımcı olmaya hazırım. 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 6
+    },
+    {
+      "timestamp": "2025-08-08T15:31:55.616362",
+      "user_message": "Adın ne?",
+      "bot_response": "Adım AI Asistan. Ben Python ile geliştirilmiş, makine öğrenmesi kullanan gelişmiş bir chatbot'um. Size nasıl yardımcı olabilirim? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 6
+    },
+    {
+      "timestamp": "2025-08-08T15:31:58.654625",
+      "user_message": "5 + 3",
+      "bot_response": "5 + 3 = 8 ✅ 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 6
+    },
+    {
+      "timestamp": "2025-08-08T15:32:01.695005",
+      "user_message": "Yardım",
+      "bot_response": "Size şu konularda yardımcı olabilirim: Günlük sohbet, teknik destek, öğrenme yardımı, matematik hesaplamaları ve daha fazlası! Ne konuda yardıma ihtiyacınız var? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 6
+    },
+    {
+      "timestamp": "2025-08-08T15:32:04.754334",
+      "user_message": "Teknik sorun yaşıyorum",
+      "bot_response": "Hata mesajını paylaşabilir misiniz? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 6
+    },
+    {
+      "timestamp": "2025-08-08T15:32:07.815369",
+      "user_message": "Görüşürüz",
+      "bot_response": "İyi günler! Başka bir sorunuz olursa buradayım! 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 5
+    },
+    {
+      "timestamp": "2025-08-08T15:32:31.888402",
+      "user_message": "Merhaba",
+      "bot_response": "Merhaba! Ben AI Asistan 👋 Size nasıl yardımcı olabilirim? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 5
+    },
+    {
+      "timestamp": "2025-08-08T15:32:34.935070",
+      "user_message": "Sen kimsin?",
+      "bot_response": "Ben AI Asistan! Makine öğrenmesi ve doğal dil işleme yeteneklerimle size en iyi hizmeti vermeye çalışıyorum. Hangi konuda yardıma ihtiyacınız var? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 5
+    },
+    {
+      "timestamp": "2025-08-08T15:32:37.984716",
+      "user_message": "Adın ne?",
+      "bot_response": "Adım AI Asistan. Ben Python ile geliştirilmiş, makine öğrenmesi kullanan gelişmiş bir chatbot'um. Size nasıl yardımcı olabilirim? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 5
+    },
+    {
+      "timestamp": "2025-08-08T15:32:41.033539",
+      "user_message": "5 + 3",
+      "bot_response": "5 + 3 = 8 ✅ 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 5
+    },
+    {
+      "timestamp": "2025-08-08T15:32:44.073810",
+      "user_message": "Yardım",
+      "bot_response": "Size şu konularda yardımcı olabilirim: Günlük sohbet, teknik destek, öğrenme yardımı, matematik hesaplamaları ve daha fazlası! Ne konuda yardıma ihtiyacınız var? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 5
+    },
+    {
+      "timestamp": "2025-08-08T15:32:47.119264",
+      "user_message": "Teknik sorun yaşıyorum",
+      "bot_response": "Teknik sorununuzu çözmek için size yardımcı olacağım! 💻 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 5
+    },
+    {
+      "timestamp": "2025-08-08T15:32:50.147184",
+      "user_message": "Görüşürüz",
+      "bot_response": "Hoşça kalın! İyi günler dilerim! 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-08T15:39:54.911171",
+      "user_message": "Benim adım Ahmet",
+      "bot_response": "Size en iyi şekilde yardımcı olmaya çalışıyorum! 😊 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-08T16:11:10.034033",
+      "user_message": "Benim adım Ahmet",
+      "bot_response": "Size en iyi şekilde yardımcı olmaya çalışıyorum! 😊 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-08T16:11:15.126442",
+      "user_message": "İstanbul'da yaşıyorum",
+      "bot_response": "Bu konu hakkında size yardımcı olmaya çalışıyorum! 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-08T16:11:20.237372",
+      "user_message": "Python öğreniyorum",
+      "bot_response": "Anlıyorum, bu konu hakkında düşünüyorum... 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-08T16:11:25.341876",
+      "user_message": "Yeni bir bilgisayar aldım",
+      "bot_response": "Bu konuda size nasıl yardımcı olabilirim? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-08T16:11:30.451261",
+      "user_message": "Python programlama öğrenmek istiyorum",
+      "bot_response": "Bu konu hakkında size yardımcı olmaya çalışıyorum! 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-08T16:11:35.570164",
+      "user_message": "Futbol maçı izledim dün",
+      "bot_response": "İlginç bir soru, biraz daha detay verebilir misiniz? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-08T16:11:40.684638",
+      "user_message": "Yeni bir film izledim",
+      "bot_response": "İlginç bir soru, biraz daha detay verebilir misiniz? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-08T16:11:45.772256",
+      "user_message": "Sağlık sorunlarım var",
+      "bot_response": "Sorununuzu adım adım açıklayabilir misiniz? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-08T16:11:50.884211",
+      "user_message": "İş toplantısına katıldım",
+      "bot_response": "Size en iyi şekilde yardımcı olmaya çalışıyorum! 😊 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 3
+    },
+    {
+      "timestamp": "2025-08-08T16:11:55.981223",
+      "user_message": "Eğer yağmur yağarsa şemsiye alacağım",
+      "bot_response": "Bu konu hakkında size yardımcı olmaya çalışıyorum! 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 3
+    },
+    {
+      "timestamp": "2025-08-08T16:12:01.063154",
+      "user_message": "Çünkü hasta olduğum için doktora gittim",
+      "bot_response": "İlginç bir soru, biraz daha detay verebilir misiniz? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 3
+    },
+    {
+      "timestamp": "2025-08-08T16:12:06.149639",
+      "user_message": "Ama fiyatı yüksek olduğu için almadım",
+      "bot_response": "Anlıyorum, bu konu hakkında düşünüyorum... 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 3
+    },
+    {
+      "timestamp": "2025-08-08T16:12:11.251231",
+      "user_message": "Bu yüzden başka bir çözüm arıyorum",
+      "bot_response": "Bu konu hakkında size yardımcı olmaya çalışıyorum! 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 3
+    },
+    {
+      "timestamp": "2025-08-08T16:12:16.340277",
+      "user_message": "Sanırım bu doğru bir karar",
+      "bot_response": "Size en iyi şekilde yardımcı olmaya çalışıyorum! 😊 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 3
+    },
+    {
+      "timestamp": "2025-08-08T16:12:21.449494",
+      "user_message": "Python öğrenmek istiyorum",
+      "bot_response": "Size en iyi şekilde yardımcı olmaya çalışıyorum! 😊 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 3
+    },
+    {
+      "timestamp": "2025-08-08T16:12:26.563540",
+      "user_message": "Hangi konularda yardım edebilirsin?",
+      "bot_response": "Ben AI Asistan! Size günlük konuşmalar, teknik sorunlar, öğrenme konuları ve matematik işlemleri konularında yardımcı olabilirim. Hangi konuda destek istiyorsunuz? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 3
+    },
+    {
+      "timestamp": "2025-08-08T16:12:31.691564",
+      "user_message": "Temel konulardan başlayalım",
+      "bot_response": "Bu konu hakkında size yardımcı olmaya çalışıyorum! 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 3
+    },
+    {
+      "timestamp": "2025-08-08T16:12:36.793463",
+      "user_message": "Değişkenler hakkında bilgi ver",
+      "bot_response": "Anlıyorum, bu konu hakkında düşünüyorum... 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 3
+    },
+    {
+      "timestamp": "2025-08-08T16:12:41.872504",
+      "user_message": "Teşekkürler, çok yardımcı oldun",
+      "bot_response": "Size yardımcı olabileceğim alanlar: Sohbet, teknik destek, eğitim, hesaplama ve daha fazlası. Hangi konuda yardım istiyorsunuz? 🤔",
+      "intent": "unknown",
+      "mood": "düşünceli",
+      "energy": 3
+    },
+    {
+      "timestamp": "2025-08-08T17:26:19.657719",
+      "user_message": "selam",
+      "bot_response": "Merhaba! Ben AI Asistan 👋 Size nasıl yardımcı olabilirim? 😊",
+      "intent": "unknown",
+      "mood": "mutlu",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-08T17:26:25.755402",
+      "user_message": "nasılsın",
+      "bot_response": "Anlıyorum, bu konu hakkında düşünüyorum... 🤔 😊",
+      "intent": "unknown",
+      "mood": "mutlu",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-08T17:26:29.413259",
+      "user_message": "Nasılsın ?",
+      "bot_response": "İlginç bir soru, biraz daha detay verebilir misiniz? 🤔 😊",
+      "intent": "unknown",
+      "mood": "mutlu",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-08T17:26:33.907455",
+      "user_message": "Nasılsın?",
+      "bot_response": "Size en iyi şekilde yardımcı olmaya çalışıyorum! 😊",
+      "intent": "unknown",
+      "mood": "mutlu",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-08T17:26:37.270347",
+      "user_message": "Adın ne",
+      "bot_response": "Adım AI Asistan. Ben Python ile geliştirilmiş, makine öğrenmesi kullanan gelişmiş bir chatbot'um. Size nasıl yardımcı olabilirim? 😊",
+      "intent": "unknown",
+      "mood": "mutlu",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-08T17:26:44.068133",
+      "user_message": "anladım. Bende Eren",
+      "bot_response": "Anlıyorum, bu konu hakkında düşünüyorum... 🤔 😊",
+      "intent": "unknown",
+      "mood": "mutlu",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-11T11:29:48.600630",
+      "user_message": "merhaba",
+      "bot_response": "Günaydın! Size nasıl hizmet verebilirim? 😊",
+      "intent": "unknown",
+      "mood": "mutlu",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-11T11:29:50.591586",
+      "user_message": "adın ne",
+      "bot_response": "Adım AI Asistan. Ben Python ile geliştirilmiş, makine öğrenmesi kullanan gelişmiş bir chatbot'um. Size nasıl yardımcı olabilirim? 😊",
+      "intent": "unknown",
+      "mood": "mutlu",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-11T11:29:54.278848",
+      "user_message": "nasılsın",
+      "bot_response": "Size en iyi şekilde yardımcı olmaya çalışıyorum! 😊",
+      "intent": "unknown",
+      "mood": "mutlu",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-11T11:29:58.438143",
+      "user_message": "güzel",
+      "bot_response": "Anlıyorum, bu konu hakkında düşünüyorum... 🤔 😊",
+      "intent": "unknown",
+      "mood": "mutlu",
+      "energy": 4
+    },
+    {
+      "timestamp": "2025-08-11T13:03:07.282628",
+      "user_message": "Benim adım Eren",
+      "bot_response": "Anlamaya çalışıyorum, başka nasıl açıklayabilir misiniz? 🤔 😊",
+      "intent": "general",
+      "mood": "mutlu",
+      "energy": 5
+    },
+    {
+      "timestamp": "2025-08-11T13:03:14.514413",
+      "user_message": "Benim ismim bu",
+      "bot_response": "Bu konu hakkında size yardımcı olmaya çalışıyorum! 🤔 😊",
+      "intent": "general",
+      "mood": "mutlu",
+      "energy": 5
+    },
+    {
+      "timestamp": "2025-08-11T13:12:36.871415",
+      "user_message": "naslsın",
+      "bot_response": "Bu konu hakkında size yardımcı olmaya çalışıyorum! 🤔 😊",
+      "intent": "general",
+      "mood": "mutlu",
+      "energy": 5
     }
   ],
   "user_preferences": {},
-  "last_updated": "2025-08-08T14:43:14.814735"
+  "last_updated": "2025-08-11T13:12:36.871415"
 }

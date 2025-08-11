@@ -3,87 +3,518 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>AI Asistan - ChatGPT Benzeri Arayüz</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #0d1117;
+            --secondary-bg: #161b22;
+            --sidebar-bg: #21262d;
+            --border-color: #30363d;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --accent-color: #58a6ff;
+            --success-color: #238636;
+            --warning-color: #f78166;
+            --error-color: #f85149;
+            --message-user-bg: #1f6feb;
+            --message-bot-bg: #21262d;
+            --input-bg: #0d1117;
+            --hover-bg: #30363d;
+        }
+
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            height: 100vh;
+            overflow: hidden;
+            line-height: 1.6;
         }
-        
-        .chat-container {
-            background: rgba(255,255,255,0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
+
+        .app-container {
+            display: flex;
+            height: 100vh;
         }
-        
-        .message {
-            margin: 10px;
-            padding: 15px;
-            border-radius: 15px;
-            max-width: 80%;
-            animation: fadeInUp 0.3s ease;
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
         }
-        
-        .user-message {
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: white;
-            margin-left: auto;
-            box-shadow: 0 4px 15px rgba(0,123,255,0.3);
-        }
-        
-        .bot-message {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            color: #333;
-            border: 1px solid #dee2e6;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .personality-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(102,126,234,0.3);
-        }
-        
-        .stats-card {
-            background: rgba(255,255,255,0.9);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .typing-indicator {
+
+        .sidebar-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
-            gap: 5px;
-            padding: 10px;
+            gap: 12px;
         }
-        
-        .typing-dot {
-            width: 8px;
-            height: 8px;
+
+        .sidebar-header .logo {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-color), #7c3aed);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .sidebar-header:hover {
+            background: var(--hover-bg);
+            transition: background 0.2s ease;
+        }
+
+        .sidebar-header:hover .logo {
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
+
+        .sidebar-header h1 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .chat-tabs {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .chat-tab {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            margin-bottom: 4px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border: 1px solid transparent;
+        }
+
+        .chat-tab:hover {
+            background: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        .chat-tab.active {
+            background: var(--hover-bg);
+            color: var(--text-primary);
+            border-color: var(--accent-color);
+        }
+
+        .chat-tab .tab-icon {
+            width: 16px;
+            height: 16px;
+            opacity: 0.7;
+        }
+
+        .chat-tab .tab-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .chat-tab .tab-title {
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 2px;
+        }
+
+        .chat-tab .tab-date {
+            font-size: 11px;
+            opacity: 0.6;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-tab .tab-actions {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            display: flex;
+            gap: 4px;
+        }
+
+        .chat-tab:hover .tab-actions {
+            opacity: 1;
+        }
+
+        .tab-actions button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .tab-actions button:hover {
+            background: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .tab-actions button.delete-btn:hover {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .sidebar-footer {
+            padding: 16px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sidebar-footer .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .sidebar-footer .menu-item:hover {
+            background: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        /* Main Chat Area */
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--primary-bg);
+        }
+
+        .chat-header {
+            padding: 16px 24px;
+            background: var(--secondary-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--success-color);
+            color: white;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .status-indicator.offline {
+            background: var(--error-color);
+        }
+
+        .header-btn {
+            padding: 8px 16px;
+            background: var(--border-color);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .header-btn:hover {
+            background: var(--hover-bg);
+            border-color: var(--accent-color);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            background: var(--primary-bg);
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.bot {
+            justify-content: flex-start;
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            background: #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 12px;
+            font-size: 14px;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .message.user .message-avatar {
+            background: var(--message-user-bg);
+            order: 2;
+        }
+
+        .message.bot .message-avatar {
+            background: var(--accent-color);
+            order: 1;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 16px 20px;
+            border-radius: 12px;
+            position: relative;
+            word-wrap: break-word;
+            line-height: 1.6;
+        }
+
+        .message.user .message-content {
+            background: var(--message-user-bg);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.bot .message-content {
+            background: var(--message-bot-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 8px;
+            text-align: right;
+        }
+
+        .message.bot .message-time {
+            text-align: left;
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 16px 20px;
+            background: var(--message-bot-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 24px;
+            max-width: 70%;
+            align-self: flex-start;
+            margin-left: 56px;
+        }
+
+        .typing-indicator.show {
+            display: block;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--text-secondary);
+            border-radius: 50%;
             animation: typing 1.4s infinite ease-in-out;
         }
-        
+
         .typing-dot:nth-child(1) { animation-delay: -0.32s; }
         .typing-dot:nth-child(2) { animation-delay: -0.16s; }
-        
+
         @keyframes typing {
-            0%, 80%, 100% {
-                transform: scale(0);
-                opacity: 0.5;
-            }
-            40% {
-                transform: scale(1);
-                opacity: 1;
-            }
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
         }
-        
+
+        .chat-input-container {
+            padding: 24px;
+            background: var(--secondary-bg);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 16px;
+            align-items: flex-end;
+            background: var(--input-bg);
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .chat-input-wrapper:focus-within {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
+        }
+
+        .chat-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 12px;
+            font-size: 16px;
+            outline: none;
+            resize: none;
+            max-height: 120px;
+            min-height: 24px;
+            color: var(--text-primary);
+            font-family: inherit;
+            line-height: 1.5;
+        }
+
+        .chat-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .send-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .send-btn:hover {
+            background: #4d9eff;
+            transform: translateY(-1px);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Welcome Message */
+        .welcome-message {
+            text-align: center;
+            padding: 60px 24px;
+            color: var(--text-secondary);
+        }
+
+        .welcome-message h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .welcome-message p {
+            font-size: 16px;
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .feature-card i {
+            font-size: 32px;
+            color: var(--accent-color);
+            margin-bottom: 16px;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Animations */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -94,308 +525,1385 @@
                 transform: translateY(0);
             }
         }
-        
-        .btn-personality {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--primary-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--hover-bg);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: absolute;
+                z-index: 1000;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .chat-main {
+                width: 100%;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* Error States */
+        .error-message {
+            background: var(--error-color);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 16px 24px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Panel Styles */
+        .panel {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin: 16px;
+            padding: 24px;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .panel.show {
+            display: flex;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .panel-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .stats-grid .feature-card {
+            padding: 16px;
+            text-align: left;
+        }
+
+        .stats-grid .feature-card i {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .stats-grid .feature-card h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .stats-grid .feature-card p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .debug-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .debug-buttons .btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .debug-buttons .btn-primary {
+            background: var(--accent-color);
+            color: white;
             border: none;
+        }
+
+        .debug-buttons .btn-primary:hover {
+            background: #4d9eff;
+        }
+
+        .debug-buttons .btn-info {
+            background: #57606a;
             color: white;
-            transition: all 0.3s ease;
+            border: none;
         }
-        
-        .btn-personality:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+
+        .debug-buttons .btn-info:hover {
+            background: #6a737d;
+        }
+
+        .debug-buttons .btn-warning {
+            background: #f78166;
             color: white;
+            border: none;
         }
-        
-        .input-group .form-control {
-            border-radius: 25px 0 0 25px;
-            border: 2px solid #dee2e6;
-            transition: all 0.3s ease;
+
+        .debug-buttons .btn-warning:hover {
+            background: #f56036;
         }
-        
-        .input-group .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102,126,234,0.25);
+
+        .debug-buttons .btn-danger {
+            background: var(--error-color);
+            color: white;
+            border: none;
         }
-        
-        .input-group .btn {
-            border-radius: 0 25px 25px 0;
-            border: 2px solid #007bff;
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            transition: all 0.3s ease;
+
+        .debug-buttons .btn-danger:hover {
+            background: #da3633;
         }
-        
-        .input-group .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+
+        .debug-buttons .btn-secondary {
+            background: var(--border-color);
+            color: var(--text-primary);
+            border: none;
         }
-        
-        .scrollbar-custom::-webkit-scrollbar {
-            width: 6px;
+
+        .debug-buttons .btn-secondary:hover {
+            background: var(--hover-bg);
         }
-        
-        .scrollbar-custom::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
+
+        .debug-content {
+            background: var(--primary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 14px;
+            color: var(--text-primary);
+            white-space: pre-wrap; /* Preserve line breaks */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
-        
-        .scrollbar-custom::-webkit-scrollbar-thumb {
-            background: #667eea;
-            border-radius: 10px;
+
+        .settings-section {
+            margin-bottom: 24px;
         }
-        
-        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-            background: #764ba2;
+
+        .settings-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
         }
+
+        .setting-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .setting-item label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .setting-item select,
+        .setting-item input[type="checkbox"] {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--input-bg);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .setting-item select:focus,
+        .setting-item input[type="checkbox"]:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
+        }
+
+        .setting-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--accent-color);
+        }
+    </style>
     </style>
 </head>
 <body>
-    <div class="container-fluid py-4">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <!-- Header -->
-                <div class="text-center mb-4">
-                    <h1 class="text-white mb-2">
-                        <i class="fas fa-robot me-3"></i>AI Asistan
-                    </h1>
-                    <p class="text-white-50">{{ description }} v{{ version }}</p>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header" onclick="startNewChatFromLogo()" style="cursor: pointer;">
+                <div class="logo">
+                    <i class="fas fa-robot"></i>
                 </div>
-                
-                <div class="row">
-                    <!-- Chat Area -->
-                    <div class="col-lg-8">
-                        <div class="chat-container p-4">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="mb-0">
-                                    <i class="fas fa-comments text-primary me-2"></i>
-                                    Sohbet
-                                </h5>
-                                <div>
-                                    <button class="btn btn-sm btn-outline-primary me-2" onclick="refreshPersonality()">
-                                        <i class="fas fa-sync-alt"></i> Yenile
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-warning" onclick="clearChat()">
-                                        <i class="fas fa-trash"></i> Temizle
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div id="chatMessages" class="mb-3 scrollbar-custom" style="height: 400px; overflow-y: auto;">
-                                <div class="message bot-message">
-                                    <i class="fas fa-robot me-2"></i>
-                                    Merhaba! Ben AI Asistan. Size nasıl yardımcı olabilirim? 😊
-                                </div>
-                            </div>
-                            
-                            <div id="typingIndicator" class="typing-indicator" style="display: none;">
-                                <div class="typing-dot"></div>
-                                <div class="typing-dot"></div>
-                                <div class="typing-dot"></div>
-                                <span class="ms-2 text-muted">Yazıyor...</span>
-                            </div>
-                            
-                            <div class="input-group">
-                                <input type="text" id="messageInput" class="form-control" placeholder="Mesajınızı yazın...">
-                                <button class="btn btn-primary" onclick="sendMessage()" id="sendButton">
-                                    <i class="fas fa-paper-plane"></i> Gönder
-                                </button>
-                            </div>
-                        </div>
+                <h1>AI Asistan</h1>
+            </div>
+
+            <div class="chat-tabs" id="chatTabs">
+                <!-- Chat tabs will be populated here automatically -->
+            </div>
+
+            <div class="sidebar-footer">
+                <a href="#" class="menu-item" onclick="showChat()">
+                    <i class="fas fa-comments"></i>
+                    Sohbet
+                </a>
+                <a href="#" class="menu-item" onclick="showPanel('debug')">
+                    <i class="fas fa-bug"></i>
+                    Debug
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="chat-main">
+            <div class="chat-header">
+                <h2 id="currentChatTitle">Yeni Sohbet</h2>
+                <div class="header-controls">
+                    <div class="status-indicator" id="statusIndicator">
+                        <i class="fas fa-circle"></i>
+                        <span>Çevrimiçi</span>
                     </div>
+                    <button class="header-btn" onclick="clearChat()">
+                        <i class="fas fa-trash"></i>
+                        Temizle
+                    </button>
+                    <button class="header-btn" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat Messages Panel -->
+            <div class="chat-messages" id="chatMessages">
+                <!-- Welcome message -->
+                <div class="welcome-message">
+                    <h1>🤖 AI Asistan'a Hoş Geldiniz</h1>
+                    <p>Gelişmiş yapay zeka teknolojisi ile sohbet edin, sorularınızı sorun ve yaratıcı çözümler bulun.</p>
                     
-                    <!-- Personality Panel -->
-                    <div class="col-lg-4">
-                        <div class="personality-card p-4 mb-3">
-                            <h6 class="mb-3">
-                                <i class="fas fa-user-circle me-2"></i>
-                                Kişilik Bilgileri
-                            </h6>
-                            <div id="personalityInfo">
-                                <div class="text-center">
-                                    <i class="fas fa-spinner fa-spin"></i>
-                                    Yükleniyor...
-                                </div>
-                            </div>
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-brain"></i>
+                            <h3>Gelişmiş AI</h3>
+                            <p>En son yapay zeka teknolojileri ile güçlendirilmiş</p>
                         </div>
-                        
-                        <div class="stats-card p-3">
-                            <h6 class="mb-3">
-                                <i class="fas fa-chart-bar me-2"></i>
-                                İstatistikler
-                            </h6>
-                            <div id="statsInfo">
-                                <div class="text-center">
-                                    <i class="fas fa-spinner fa-spin"></i>
-                                    Yükleniyor...
-                                </div>
-                            </div>
+                        <div class="feature-card">
+                            <i class="fas fa-comments"></i>
+                            <h3>Doğal Sohbet</h3>
+                            <p>İnsan benzeri doğal dil işleme</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-lightbulb"></i>
+                            <h3>Yaratıcı Çözümler</h3>
+                            <p>Karmaşık problemler için yaratıcı yaklaşımlar</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-shield-alt"></i>
+                            <h3>Güvenli</h3>
+                            <p>Güvenli ve özel sohbet deneyimi</p>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Features Panel -->
+            <div class="panel" id="featuresPanel" style="display: none;">
+                <div class="panel-header">
+                    <h2><i class="fas fa-star"></i> AI Asistan Özellikleri</h2>
+                </div>
+                <div class="panel-content">
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-brain"></i>
+                            <h3>Gelişmiş NLP</h3>
+                            <p>Doğal dil işleme ile kullanıcı niyetlerini anlar ve uygun yanıtlar üretir.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-memory"></i>
+                            <h3>Hafıza Sistemi</h3>
+                            <p>Kısa ve uzun süreli hafıza ile konuşma geçmişini hatırlar.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-lightbulb"></i>
+                            <h3>Yaratıcılık Modülü</h3>
+                            <p>Metaforlar, benzetmeler ve yaratıcı sorular ile zengin yanıtlar.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-cogs"></i>
+                            <h3>Akıl Yürütme</h3>
+                            <p>Mantıksal bağlantılar kurar ve bağlam analizi yapar.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-database"></i>
+                            <h3>Bilgi Tabanı</h3>
+                            <p>Geniş bilgi tabanından ilgili bilgileri çıkarır ve sunar.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>Performans Takibi</h3>
+                            <p>Detaylı performans metrikleri ve sistem durumu izleme.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Panel -->
+            <div class="panel" id="statsPanel" style="display: none;">
+                <div class="panel-header">
+                    <h2><i class="fas fa-chart-bar"></i> Sistem İstatistikleri</h2>
+                </div>
+                <div class="panel-content">
+                    <div class="stats-grid" id="statsGrid">
+                        <!-- Stats will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Debug Panel -->
+            <div class="panel" id="debugPanel" style="display: none;">
+                <div class="panel-header">
+                    <h2><i class="fas fa-bug"></i> Debug Bilgileri</h2>
+                </div>
+                <div class="panel-content">
+                    <div class="debug-buttons">
+                        <button onclick="checkSystemStatus()" class="btn btn-primary">Sistem Durumu</button>
+                        <button onclick="loadStats()" class="btn btn-info">İstatistikler</button>
+                        <button onclick="loadDebugInfo()" class="btn btn-warning">Debug Bilgileri</button>
+                        <button onclick="loadLatestErrors()" class="btn btn-danger">En Son Hatalar</button>
+                        <button onclick="clearChat()" class="btn btn-secondary">Sohbeti Temizle</button>
+                        <button onclick="deleteAllChats()" class="btn btn-danger">Tüm Sohbetleri Sil</button>
+                        <button onclick="clearAllData()" class="btn btn-danger">Tüm Verileri Temizle</button>
+                    </div>
+                    <div class="debug-content" id="debugContent">
+                        <!-- Debug info will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Panel -->
+            <div class="panel" id="settingsPanel" style="display: none;">
+                <div class="panel-header">
+                    <h2><i class="fas fa-cog"></i> Ayarlar</h2>
+                </div>
+                <div class="panel-content">
+                    <div class="settings-section">
+                        <h3>Görünüm Ayarları</h3>
+                        <div class="setting-item">
+                            <label for="themeSelect">Tema:</label>
+                            <select id="themeSelect" onchange="changeTheme(this.value)">
+                                <option value="dark">Koyu Tema</option>
+                                <option value="light">Açık Tema</option>
+                                <option value="auto">Otomatik</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label for="fontSizeSelect">Yazı Boyutu:</label>
+                            <select id="fontSizeSelect" onchange="changeFontSize(this.value)">
+                                <option value="small">Küçük</option>
+                                <option value="medium" selected>Orta</option>
+                                <option value="large">Büyük</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3>Chat Ayarları</h3>
+                        <div class="setting-item">
+                            <label for="autoScroll">Otomatik Kaydırma:</label>
+                            <input type="checkbox" id="autoScroll" checked>
+                        </div>
+                        <div class="setting-item">
+                            <label for="typingIndicator">Yazıyor Göstergesi:</label>
+                            <input type="checkbox" id="typingIndicator" checked>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="error-message" id="errorMessage"></div>
+
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <textarea 
+                        class="chat-input" 
+                        id="chatInput" 
+                        placeholder="Mesajınızı yazın... (Shift+Enter ile yeni satır)"
+                        rows="1"
+                        onkeydown="handleKeyDown(event)"
+                    ></textarea>
+                    <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
+        // Global variables
+        let currentSessionId = null;
+        let chatHistory = [];
         let isTyping = false;
-        
-        function sendMessage() {
-            const input = document.getElementById('messageInput');
+        let chatSessions = {}; // Store all chat sessions
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            setupEventListeners();
+            loadChatSessions();
+        });
+
+        function initializeApp() {
+            // Check connection status
+            checkConnectionStatus();
+            
+            // Auto-resize textarea
+            const chatInput = document.getElementById('chatInput');
+            chatInput.addEventListener('input', autoResizeTextarea);
+            
+            // Focus on input
+            chatInput.focus();
+        }
+
+        function setupEventListeners() {
+            // Handle input focus
+            document.getElementById('chatInput').addEventListener('focus', function() {
+                this.parentElement.style.borderColor = 'var(--accent-color)';
+            });
+
+            document.getElementById('chatInput').addEventListener('blur', function() {
+                this.parentElement.style.borderColor = 'var(--border-color)';
+            });
+
+            // Handle input change to auto-create chat tab when typing starts
+            document.getElementById('chatInput').addEventListener('input', function() {
+                // If user starts typing and has a session but no tab yet, create the tab
+                if (currentSessionId && chatSessions[currentSessionId] && !document.getElementById('tab_' + currentSessionId)) {
+                    console.log('User started typing, creating chat tab for existing session');
+                    addChatTab('Yeni Sohbet', currentSessionId);
+                }
+            });
+        }
+
+        function autoResizeTextarea() {
+            const textarea = this;
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+        }
+
+        function handleKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                
+                // Auto-create new chat if no current session
+                if (!currentSessionId) {
+                    console.log('Enter pressed without session, auto-creating new chat');
+                    startNewChat();
+                }
+                
+                // If user has a session but no tab yet, create the tab
+                if (currentSessionId && chatSessions[currentSessionId] && !document.getElementById('tab_' + currentSessionId)) {
+                    console.log('Enter pressed, creating chat tab for existing session');
+                    addChatTab('Yeni Sohbet', currentSessionId);
+                }
+                
+                sendMessage();
+            }
+        }
+
+        function startNewChat() {
+            console.log('Starting new chat...');
+            currentSessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            chatHistory = [];
+            
+            // Create new session
+            chatSessions[currentSessionId] = {
+                id: currentSessionId,
+                title: 'Yeni Sohbet',
+                messages: [],
+                created: new Date().toISOString(),
+                lastModified: new Date().toISOString()
+            };
+            
+            console.log('Created new session:', chatSessions[currentSessionId]);
+            
+            // Update UI
+            document.getElementById('currentChatTitle').textContent = 'Yeni Sohbet';
+            document.getElementById('chatMessages').innerHTML = getWelcomeMessage();
+            
+            // Don't add chat tab yet - wait for first message
+            console.log('New chat started, waiting for first message to add tab');
+            
+            // Save to localStorage
+            saveChatSessions();
+            
+            console.log('New chat started successfully');
+        }
+
+        function startNewChatFromLogo() {
+            console.log('Starting new chat from logo...');
+            currentSessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            chatHistory = [];
+            
+            // Create new session
+            chatSessions[currentSessionId] = {
+                id: currentSessionId,
+                title: 'Yeni Sohbet',
+                messages: [],
+                created: new Date().toISOString(),
+                lastModified: new Date().toISOString()
+            };
+            
+            console.log('Created new session from logo:', chatSessions[currentSessionId]);
+            
+            // Update UI - NO TAB ADDED YET
+            document.getElementById('currentChatTitle').textContent = 'Yeni Sohbet';
+            document.getElementById('chatMessages').innerHTML = getWelcomeMessage();
+            
+            // Save to localStorage
+            saveChatSessions();
+            
+            console.log('New chat started successfully from logo (no tab added yet)');
+        }
+
+        function addChatTab(title, sessionId) {
+            const chatTabs = document.getElementById('chatTabs');
+            const tabId = 'tab_' + sessionId;
+            
+            // Remove existing tab if it exists
+            const existingTab = document.getElementById(tabId);
+            if (existingTab) {
+                existingTab.remove();
+            }
+            
+            // Check if session has messages - don't show tabs with 0 messages
+            const session = chatSessions[sessionId];
+            if (!session || session.messages.length === 0) {
+                console.log('Session has no messages, not adding tab:', sessionId);
+                return;
+            }
+            
+            const tab = document.createElement('div');
+            tab.className = 'chat-tab';
+            tab.id = tabId;
+            tab.onclick = () => switchToChat(sessionId, title);
+            
+            const createdDate = new Date(session.created).toLocaleDateString('tr-TR', { month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' });
+
+            const messageCount = session.messages.length;
+            const messageCountText = messageCount > 0 ? `${messageCount} mesaj` : 'Boş';
+            
+            tab.innerHTML = `
+                <i class="fas fa-comment tab-icon"></i>
+                <div class="tab-content">
+                    <span class="tab-title">${title}</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="tab-date">${createdDate}</span>
+                        <span class="tab-date" style="font-size: 10px; opacity: 0.5;">${messageCountText}</span>
+                    </div>
+                </div>
+                <div class="tab-actions">
+                    <button onclick="deleteChatTab('${sessionId}', event)" class="delete-btn">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            
+            chatTabs.appendChild(tab);
+            
+            // Set as active
+            setActiveTab(tabId);
+            
+            console.log('Chat tab added for session with', messageCount, 'messages:', sessionId);
+        }
+
+        function setActiveTab(tabId) {
+            // Remove active class from all tabs
+            document.querySelectorAll('.chat-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Add active class to current tab
+            const currentTab = document.getElementById(tabId);
+            if (currentTab) {
+                currentTab.classList.add('active');
+            }
+        }
+
+        function switchToChat(sessionId, title) {
+            console.log('Switching to chat:', sessionId, title);
+            currentSessionId = sessionId;
+            const session = chatSessions[sessionId];
+            
+            if (session) {
+                console.log('Session found:', session);
+                // Load chat history
+                chatHistory = session.messages;
+                console.log('Loaded', chatHistory.length, 'messages from session');
+                document.getElementById('currentChatTitle').textContent = session.title;
+                
+                // Display messages
+                displayChatHistory();
+                
+                // Set active tab
+                setActiveTab('tab_' + sessionId);
+                
+                console.log('Successfully switched to chat:', sessionId);
+            } else {
+                console.error('Session not found:', sessionId);
+                // Session not found, start new chat
+                startNewChat();
+            }
+        }
+
+        function displayChatHistory() {
+            console.log('Displaying chat history with', chatHistory.length, 'messages');
+            const chatMessages = document.getElementById('chatMessages');
+            
+            if (chatHistory.length === 0) {
+                console.log('No messages in history, showing welcome message');
+                chatMessages.innerHTML = getWelcomeMessage();
+                return;
+            }
+            
+            // Clear and add messages
+            chatMessages.innerHTML = '';
+            chatHistory.forEach((msg, index) => {
+                console.log('Adding message', index + 1, 'to UI:', msg.type, msg.content.substring(0, 50) + '...');
+                addMessageToUI(msg.type, msg.content, msg.timestamp, false);
+            });
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            console.log('Chat history displayed successfully');
+        }
+
+        function deleteChatTab(sessionId, event) {
+            event.stopPropagation();
+            console.log('Deleting chat tab:', sessionId);
+            
+            if (confirm('Bu sohbeti silmek istediğinizden emin misiniz?')) {
+                try {
+                    // Remove from sessions
+                    delete chatSessions[sessionId];
+                    console.log('Session removed from chatSessions');
+                    
+                    // Remove tab from UI
+                    const tab = document.getElementById('tab_' + sessionId);
+                    if (tab) {
+                        tab.remove();
+                        console.log('Tab removed from UI');
+                    } else {
+                        console.warn('Tab not found in UI:', 'tab_' + sessionId);
+                    }
+                    
+                    // If this was the current chat, start a new one
+                    if (currentSessionId === sessionId) {
+                        console.log('Current session deleted, starting new chat');
+                        startNewChat();
+                    } else {
+                        // Update the current session display if needed
+                        console.log('Other session deleted, current session remains');
+                    }
+                    
+                    // Save to localStorage
+                    saveChatSessions();
+                    
+                    console.log('Chat tab deletion completed successfully');
+                    
+                } catch (error) {
+                    console.error('Error deleting chat tab:', error);
+                    showError('Sohbet silinirken bir hata oluştu: ' + error.message);
+                }
+            }
+        }
+
+        function loadChatSessions() {
+            try {
+                console.log('Loading chat sessions from localStorage...');
+                const saved = localStorage.getItem('chatSessions');
+                console.log('Raw localStorage data:', saved);
+                
+                if (saved) {
+                    chatSessions = JSON.parse(saved);
+                    console.log('Parsed chat sessions:', chatSessions);
+                    
+                    // Clean up sessions with 0 messages automatically
+                    const sessionsToRemove = [];
+                    Object.keys(chatSessions).forEach(sessionId => {
+                        const session = chatSessions[sessionId];
+                        if (!session.messages || session.messages.length === 0) {
+                            console.log('Found session with 0 messages, marking for removal:', sessionId);
+                            sessionsToRemove.push(sessionId);
+                        }
+                    });
+                    
+                    // Remove empty sessions
+                    sessionsToRemove.forEach(sessionId => {
+                        console.log('Removing empty session:', sessionId);
+                        delete chatSessions[sessionId];
+                    });
+                    
+                    if (sessionsToRemove.length > 0) {
+                        console.log('Removed', sessionsToRemove.length, 'empty sessions');
+                        // Save cleaned sessions to localStorage
+                        saveChatSessions();
+                    }
+                    
+                    // Sort sessions by last modified date (newest first)
+                    const sortedSessions = Object.values(chatSessions).sort((a, b) => 
+                        new Date(b.lastModified) - new Date(a.lastModified)
+                    );
+                    
+                    console.log('Sorted sessions after cleanup:', sortedSessions);
+                    
+                    // Load existing tabs in order (only for sessions with messages)
+                    sortedSessions.forEach(session => {
+                        if (session.messages && session.messages.length > 0) {
+                            console.log('Adding tab for session with', session.messages.length, 'messages:', session.id, session.title);
+                            addChatTab(session.title, session.id);
+                        } else {
+                            console.log('Skipping session with no messages:', session.id);
+                        }
+                    });
+                    
+                    // If no sessions exist, start a new one
+                    if (Object.keys(chatSessions).length === 0) {
+                        console.log('No sessions found, starting new chat');
+                        startNewChat();
+                    } else {
+                        // Load the most recent session
+                        console.log('Loading most recent session:', sortedSessions[0].id);
+                        switchToChat(sortedSessions[0].id, sortedSessions[0].title);
+                    }
+                } else {
+                    console.log('No saved sessions found in localStorage, starting new chat');
+                    startNewChat();
+                }
+            } catch (error) {
+                console.error('Error loading chat sessions:', error);
+                // Clear corrupted data and start fresh
+                localStorage.removeItem('chatSessions');
+                startNewChat();
+            }
+        }
+
+        function saveChatSessions() {
+            try {
+                console.log('Saving chat sessions to localStorage:', chatSessions);
+                const dataToSave = JSON.stringify(chatSessions);
+                console.log('Data to save:', dataToSave);
+                localStorage.setItem('chatSessions', dataToSave);
+                console.log('Chat sessions saved successfully');
+                
+                // Verify the save
+                const saved = localStorage.getItem('chatSessions');
+                console.log('Verification - saved data:', saved);
+                
+            } catch (error) {
+                console.error('Error saving chat sessions:', error);
+                showError('Sohbet geçmişi kaydedilemedi: ' + error.message);
+            }
+        }
+
+        function getWelcomeMessage() {
+            return `
+                <div class="welcome-message">
+                    <h1>🤖 AI Asistan'a Hoş Geldiniz</h1>
+                    <p>Gelişmiş yapay zeka teknolojisi ile sohbet edin, sorularınızı sorun ve yaratıcı çözümler bulun.</p>
+                    
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-brain"></i>
+                            <h3>Gelişmiş AI</h3>
+                            <p>En son yapay zeka teknolojileri ile güçlendirilmiş</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-comments"></i>
+                            <h3>Doğal Sohbet</h3>
+                            <p>İnsan benzeri doğal dil işleme</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-lightbulb"></i>
+                            <h3>Yaratıcı Çözümler</h3>
+                            <p>Karmaşık problemler için yaratıcı yaklaşımlar</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-shield-alt"></i>
+                            <h3>Güvenli</h3>
+                            <p>Güvenli ve özel sohbet deneyimi</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
             const message = input.value.trim();
+            
             if (!message || isTyping) return;
             
-            addMessage(message, 'user');
+            // Clear input
             input.value = '';
+            input.style.height = 'auto';
+            
+            // Add user message to chat
+            addMessage('user', message);
             
             // Show typing indicator
             showTypingIndicator();
             
-            fetch('/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: message })
-            })
-            .then(response => response.json())
-            .then(data => {
-                hideTypingIndicator();
-                if (data.success) {
-                    addMessage(data.response, 'bot');
-                    updatePersonalityInfo(data.personality_info);
-                    updateStats(data.stats);
+            try {
+                // Send message to API
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        session_id: currentSessionId
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Hide typing indicator
+                    hideTypingIndicator();
+                    
+                    // Add bot response
+                    addMessage('bot', data.response);
+                    
+                    // Update chat tab title with first message
+                    if (chatHistory.length === 2) { // User message + bot response
+                        const shortTitle = message.substring(0, 30) + (message.length > 30 ? '...' : '');
+                        updateChatTabTitle(shortTitle);
+                        updateSessionTitle(shortTitle);
+                    }
+                    
                 } else {
-                    addMessage('Üzgünüm, bir hata oluştu.', 'bot');
+                    throw new Error('API response error');
                 }
-            })
-            .catch(error => {
+                
+            } catch (error) {
+                console.error('Error sending message:', error);
                 hideTypingIndicator();
-                addMessage('Bağlantı hatası oluştu.', 'bot');
+                showError('Mesaj gönderilirken bir hata oluştu. Lütfen tekrar deneyin.');
+            }
+        }
+
+        function addMessage(type, content) {
+            console.log('Adding message:', type, content);
+            
+            const timestamp = new Date().toLocaleTimeString('tr-TR', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
             });
+            
+            // Add to history
+            const messageObj = { type, content, timestamp };
+            chatHistory.push(messageObj);
+            
+            console.log('Message added to history, total messages:', chatHistory.length);
+            
+            // Update session
+            if (currentSessionId && chatSessions[currentSessionId]) {
+                chatSessions[currentSessionId].messages = chatHistory;
+                chatSessions[currentSessionId].lastModified = new Date().toISOString();
+                
+                console.log('Updating session:', currentSessionId, 'with', chatHistory.length, 'messages');
+                
+                // Save to localStorage immediately after each message
+                saveChatSessions();
+                
+                // If this is the first message, create the chat tab
+                if (chatHistory.length === 1 && !document.getElementById('tab_' + currentSessionId)) {
+                    console.log('First message added, creating chat tab');
+                    addChatTab('Yeni Sohbet', currentSessionId);
+                } else {
+                    // Update existing tab display
+                    updateChatTabDisplay(currentSessionId);
+                }
+            } else {
+                console.error('No current session found for message:', currentSessionId);
+            }
+            
+            // Add to UI
+            addMessageToUI(type, content, timestamp, true);
         }
-        
-        function addMessage(text, sender) {
-            const messages = document.getElementById('chatMessages');
+
+        function addMessageToUI(type, content, timestamp, scrollToBottom = true) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // Remove welcome message if it exists
+            const welcomeMessage = chatMessages.querySelector('.welcome-message');
+            if (welcomeMessage) {
+                welcomeMessage.remove();
+            }
+            
             const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}-message`;
+            messageDiv.className = `message ${type}`;
             
-            const icon = sender === 'user' ? 'fas fa-user' : 'fas fa-robot';
-            messageDiv.innerHTML = `<i class="${icon} me-2"></i>${text}`;
+            const avatar = type === 'user' ? '👤' : '🤖';
             
-            messages.appendChild(messageDiv);
-            messages.scrollTop = messages.scrollHeight;
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${avatar}</div>
+                <div class="message-content">
+                    ${content}
+                    <div class="message-time">${timestamp}</div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            
+            // Scroll to bottom if requested
+            if (scrollToBottom) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
         }
-        
+
+        function updateChatTabDisplay(sessionId) {
+            const session = chatSessions[sessionId];
+            if (!session) {
+                console.warn('Session not found for tab update:', sessionId);
+                return;
+            }
+            
+            const tab = document.getElementById('tab_' + sessionId);
+            if (!tab) {
+                console.warn('Tab not found for update:', sessionId);
+                return;
+            }
+            
+            try {
+                const createdDate = new Date(session.created).toLocaleDateString('tr-TR', { 
+                    month: 'numeric', 
+                    day: 'numeric', 
+                    hour: 'numeric', 
+                    minute: 'numeric' 
+                });
+                const messageCount = session.messages.length;
+                const messageCountText = messageCount > 0 ? `${messageCount} mesaj` : 'Boş';
+                
+                // If session has no messages, hide the tab
+                if (messageCount === 0) {
+                    console.log('Session has no messages, hiding tab:', sessionId);
+                    tab.style.display = 'none';
+                    return;
+                } else {
+                    // Show the tab if it was hidden
+                    tab.style.display = 'flex';
+                }
+                
+                const tabContent = tab.querySelector('.tab-content');
+                if (tabContent) {
+                    tabContent.innerHTML = `
+                        <span class="tab-title">${session.title}</span>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span class="tab-date">${createdDate}</span>
+                            <span class="tab-date" style="font-size: 10px; opacity: 0.5;">${messageCountText}</span>
+                        </div>
+                    `;
+                    console.log('Tab display updated for session:', sessionId);
+                } else {
+                    console.warn('Tab content not found for session:', sessionId);
+                }
+            } catch (error) {
+                console.error('Error updating tab display for session:', sessionId, error);
+            }
+        }
+
+        function updateChatTabTitle(title) {
+            const currentTab = document.querySelector('.chat-tab.active .tab-title');
+            if (currentTab) {
+                currentTab.textContent = title;
+            }
+        }
+
+        function updateSessionTitle(title) {
+            if (currentSessionId && chatSessions[currentSessionId]) {
+                chatSessions[currentSessionId].title = title;
+                saveChatSessions();
+                
+                // Update tab display
+                updateChatTabDisplay(currentSessionId);
+            }
+        }
+
         function showTypingIndicator() {
             isTyping = true;
-            document.getElementById('typingIndicator').style.display = 'flex';
-            document.getElementById('sendButton').disabled = true;
-            document.getElementById('messageInput').disabled = true;
+            document.getElementById('typingIndicator').classList.add('show');
+            
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
-        
+
         function hideTypingIndicator() {
             isTyping = false;
-            document.getElementById('typingIndicator').style.display = 'none';
-            document.getElementById('sendButton').disabled = false;
-            document.getElementById('messageInput').disabled = false;
-            document.getElementById('messageInput').focus();
+            document.getElementById('typingIndicator').classList.remove('show');
         }
-        
-        function updatePersonalityInfo(personality) {
-            if (!personality) return;
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.classList.add('show');
             
-            const infoDiv = document.getElementById('personalityInfo');
-            infoDiv.innerHTML = `
-                <div class="mb-2">
-                    <strong>Ad:</strong> ${personality.name}
-                </div>
-                <div class="mb-2">
-                    <strong>Versiyon:</strong> ${personality.version}
-                </div>
-                <div class="mb-2">
-                    <strong>Ruh Hali:</strong> ${personality.mood}
-                </div>
-                <div class="mb-2">
-                    <strong>Enerji:</strong> ${personality.energy_level}/10
-                </div>
-                <div class="mb-2">
-                    <strong>Heyecan:</strong> ${personality.enthusiasm}/10
-                </div>
-                <div class="mb-2">
-                    <strong>İletişim:</strong> ${personality.communication_style}
-                </div>
-                <div class="mb-2">
-                    <strong>Konuşma:</strong> ${personality.conversation_count}
-                </div>
-            `;
+            setTimeout(() => {
+                errorDiv.classList.remove('show');
+            }, 5000);
         }
-        
-        function updateStats(stats) {
-            if (!stats) return;
-            
-            const statsDiv = document.getElementById('statsInfo');
-            statsDiv.innerHTML = `
-                <div class="mb-2">
-                    <strong>Toplam İstek:</strong> ${stats.total_requests}
-                </div>
-                <div class="mb-2">
-                    <strong>Başarılı:</strong> ${stats.successful_requests}
-                </div>
-                <div class="mb-2">
-                    <strong>Ortalama Süre:</strong> ${stats.average_response_time}s
-                </div>
-            `;
-        }
-        
-        function refreshPersonality() {
-            fetch('/api/personality/info')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        console.error('Kişilik bilgisi hatası:', data.error);
-                    } else {
-                        updatePersonalityInfo(data);
-                    }
-                })
-                .catch(error => {
-                    console.error('Kişilik bilgisi yükleme hatası:', error);
-                });
-        }
-        
+
         function clearChat() {
-            const messages = document.getElementById('chatMessages');
-            messages.innerHTML = `
-                <div class="message bot-message">
-                    <i class="fas fa-robot me-2"></i>
-                    Sohbet temizlendi. Size nasıl yardımcı olabilirim? 😊
-                </div>
-            `;
-        }
-        
-        // Event listeners
-        document.getElementById('messageInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-        
-        // Load initial data
-        document.addEventListener('DOMContentLoaded', function() {
-            refreshPersonality();
+            console.log('Clearing current chat...');
             
-            fetch('/api/stats')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        console.error('İstatistik hatası:', data.error);
+            if (confirm('Sohbet geçmişini temizlemek istediğinizden emin misiniz?')) {
+                try {
+                    chatHistory = [];
+                    console.log('Chat history cleared');
+                    
+                    // Update session
+                    if (currentSessionId && chatSessions[currentSessionId]) {
+                        chatSessions[currentSessionId].messages = [];
+                        chatSessions[currentSessionId].lastModified = new Date().toISOString();
+                        chatSessions[currentSessionId].title = 'Yeni Sohbet';
+                        
+                        console.log('Session updated with empty messages');
+                        
+                        // Save to localStorage
+                        saveChatSessions();
+                        
+                        // Update tab display (this will hide the tab since it has 0 messages)
+                        updateChatTabDisplay(currentSessionId);
+                        
+                        // Also remove the tab from UI completely
+                        const tab = document.getElementById('tab_' + currentSessionId);
+                        if (tab) {
+                            tab.remove();
+                            console.log('Tab removed from UI after clearing chat');
+                        }
+                        
                     } else {
-                        updateStats(data);
+                        console.warn('No current session found for clearing');
                     }
-                })
-                .catch(error => {
-                    console.error('İstatistik yükleme hatası:', error);
-                });
+                    
+                    // Update UI
+                    document.getElementById('chatMessages').innerHTML = getWelcomeMessage();
+                    document.getElementById('currentChatTitle').textContent = 'Yeni Sohbet';
+                    
+                    console.log('Chat cleared successfully');
+                    
+                } catch (error) {
+                    console.error('Error clearing chat:', error);
+                    showError('Sohbet temizlenirken bir hata oluştu: ' + error.message);
+                }
+            }
+        }
+
+        function clearAllData() {
+            console.log('Clearing all data...');
+            
+            if (confirm('TÜM sohbet verileri ve localStorage temizlenecek. Bu işlem geri alınamaz! Devam etmek istiyor musunuz?')) {
+                try {
+                    // Clear all sessions
+                    chatSessions = {};
+                    chatHistory = [];
+                    currentSessionId = null;
+                    
+                    console.log('All sessions cleared');
+                    
+                    // Clear localStorage
+                    localStorage.removeItem('chatSessions');
+                    console.log('localStorage cleared');
+                    
+                    // Clear UI
+                    document.getElementById('chatTabs').innerHTML = '';
+                    document.getElementById('chatMessages').innerHTML = getWelcomeMessage();
+                    document.getElementById('currentChatTitle').textContent = 'Yeni Sohbet';
+                    
+                    // Start fresh
+                    startNewChat();
+                    
+                    console.log('All data cleared successfully');
+                    showError('Tüm veriler temizlendi, yeni başlangıç yapıldı');
+                    
+                } catch (error) {
+                    console.error('Error clearing all data:', error);
+                    showError('Veriler temizlenirken bir hata oluştu: ' + error.message);
+                }
+            }
+        }
+
+        async function checkConnectionStatus() {
+            try {
+                const response = await fetch('/health');
+                if (response.ok) {
+                    document.getElementById('statusIndicator').classList.remove('offline');
+                    document.getElementById('statusIndicator').innerHTML = '<i class="fas fa-circle"></i><span>Çevrimiçi</span>';
+                } else {
+                    throw new Error('Health check failed');
+                }
+            } catch (error) {
+                document.getElementById('statusIndicator').classList.add('offline');
+                document.getElementById('statusIndicator').innerHTML = '<i class="fas fa-circle"></i><span>Çevrimdışı</span>';
+            }
+        }
+
+        function showPanel(panelName) {
+            // Hide all panels
+            document.querySelectorAll('.panel').forEach(panel => {
+                panel.classList.remove('show');
+            });
+
+            // Hide chat messages
+            document.getElementById('chatMessages').style.display = 'none';
+
+            // Show the selected panel
+            document.getElementById(panelName + 'Panel').classList.add('show');
+
+            // Update sidebar menu item
+            document.querySelectorAll('.sidebar-footer .menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`.sidebar-footer .menu-item[onclick="showPanel('${panelName}')"]`).classList.add('active');
+        }
+
+        function showChat() {
+            // Hide all panels
+            document.querySelectorAll('.panel').forEach(panel => {
+                panel.classList.remove('show');
+            });
+
+            // Show chat messages
+            document.getElementById('chatMessages').style.display = 'block';
+
+            // Remove active from all sidebar menu items
+            document.querySelectorAll('.sidebar-footer .menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('show');
+        }
+
+        // Periodic connection check
+        setInterval(checkConnectionStatus, 30000); // Check every 30 seconds
+
+        // Panel functionality functions
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/stats');
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                const statsGrid = document.getElementById('statsGrid');
+                statsGrid.innerHTML = `
+                    <div class="feature-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>${data.total_requests || 0}</h3>
+                        <p>Toplam İstek</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>${data.successful_requests || 0}</h3>
+                        <p>Başarılı İstek</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-percentage"></i>
+                        <h3>${Math.round((data.successful_requests || 0) / Math.max(data.total_requests || 1, 1) * 100)}%</h3>
+                        <p>Başarı Oranı</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-clock"></i>
+                        <h3>${Math.round((data.average_response_time || 0) * 1000)}ms</h3>
+                        <p>Ortalama Yanıt Süresi</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-comments"></i>
+                        <h3>${chatHistory.length}</h3>
+                        <p>Bu Oturumda Mesaj</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-server"></i>
+                        <h3>${Math.round((data.uptime || 0) / 60)}m</h3>
+                        <p>Çalışma Süresi</p>
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('Error loading stats:', error);
+                document.getElementById('statsGrid').innerHTML = '<p>İstatistikler yüklenemedi: ' + error.message + '</p>';
+            }
+        }
+
+        async function loadDebugInfo() {
+            try {
+                const response = await fetch('/api/debug/info');
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                const debugContent = document.getElementById('debugContent');
+                debugContent.innerHTML = JSON.stringify(data, null, 2);
+                
+            } catch (error) {
+                console.error('Error loading debug info:', error);
+                document.getElementById('debugContent').innerHTML = 'Debug bilgileri yüklenemedi: ' + error.message;
+            }
+        }
+
+        async function loadLatestErrors() {
+            try {
+                const response = await fetch('/api/logs/latest-errors');
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                const debugContent = document.getElementById('debugContent');
+                debugContent.innerHTML = `
+                    <div style="margin-bottom: 16px;">
+                        <h4 style="color: var(--error-color); margin-bottom: 8px;">🔴 En Son Hatalar</h4>
+                        <p><strong>Hata Dizini:</strong> ${data.errors_directory || 'Bilinmiyor'}</p>
+                    </div>
+                    <div style="margin-bottom: 16px;">
+                        <h4 style="color: var(--warning-color); margin-bottom: 8px;">📁 Hata Dosyaları:</h4>
+                        <pre style="background: var(--primary-bg); padding: 8px; border-radius: 4px; font-size: 12px;">${data.latest_errors?.all_error_files ? data.latest_errors.all_error_files.map(file => `${file.filename} (${file.size_mb} MB) - ${file.modified}`).join('\n') : 'Hata dosyası bulunamadı'}</pre>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--accent-color); margin-bottom: 8px;">📋 En Son Hata Detayları:</h4>
+                        <pre style="background: var(--primary-bg); padding: 8px; border-radius: 4px; font-size: 12px; max-height: 200px; overflow-y: auto;">${data.latest_errors?.latest_error_details || 'Hata detayı bulunamadı'}</pre>
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('Error loading latest errors:', error);
+                document.getElementById('debugContent').innerHTML = 'En son hatalar yüklenemedi: ' + error.message;
+            }
+        }
+
+        async function checkSystemStatus() {
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+                
+                const debugContent = document.getElementById('debugContent');
+                debugContent.innerHTML = `
+                    <div style="margin-bottom: 16px;">
+                        <h4 style="color: var(--success-color); margin-bottom: 8px;">🟢 Sistem Durumu</h4>
+                        <pre style="background: var(--primary-bg); padding: 8px; border-radius: 4px; font-size: 12px;">${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('Error checking system status:', error);
+                document.getElementById('debugContent').innerHTML = 'Sistem durumu kontrol edilemedi: ' + error.message;
+            }
+        }
+
+        /* Theme and Font Size Functions */
+        function changeTheme(theme) {
+            if (theme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.body.classList.remove('light-mode', 'auto-mode');
+            } else if (theme === 'light') {
+                document.body.classList.add('light-mode');
+                document.body.classList.remove('dark-mode', 'auto-mode');
+            } else { // auto
+                document.body.classList.add('auto-mode');
+                document.body.classList.remove('dark-mode', 'light-mode');
+            }
+            localStorage.setItem('theme', theme);
+        }
+
+        function changeFontSize(size) {
+            document.body.style.fontSize = size;
+            localStorage.setItem('fontSize', size);
+        }
+
+        /* Initial Theme and Font Size */
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            const savedFontSize = localStorage.getItem('fontSize');
+
+            if (savedTheme) {
+                changeTheme(savedTheme);
+            } else {
+                changeTheme('dark'); // Default to dark theme
+            }
+
+            if (savedFontSize) {
+                changeFontSize(savedFontSize);
+            } else {
+                changeFontSize('medium'); // Default to medium font size
+            }
         });
     </script>
 </body>

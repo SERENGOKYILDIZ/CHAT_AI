@@ -1,0 +1,114 @@
+{
+  "python_programming": {
+    "content": "Python, yüksek seviyeli, genel amaçlı bir programlama dilidir. Guido van Rossum tarafından 1991'de geliştirilmiştir. Python'ın özellikleri arasında okunabilir syntax, dinamik typing, otomatik memory management ve geniş standart kütüphane bulunur.",
+    "tags": ["programlama", "python", "yazılım", "kodlama"],
+    "intent": "explanation",
+    "category": "technology",
+    "confidence": 0.95
+  },
+  "machine_learning": {
+    "content": "Makine öğrenmesi, bilgisayarların veri kullanarak öğrenmesini ve tahmin yapmasını sağlayan yapay zeka alt dalıdır. Supervised learning, unsupervised learning ve reinforcement learning olmak üzere üç ana kategoriye ayrılır.",
+    "tags": ["yapay zeka", "makine öğrenmesi", "AI", "veri bilimi"],
+    "intent": "explanation",
+    "category": "technology",
+    "confidence": 0.92
+  },
+  "web_development": {
+    "content": "Web geliştirme, web siteleri ve web uygulamaları oluşturma sürecidir. Frontend (HTML, CSS, JavaScript) ve backend (Python, Node.js, PHP) olmak üzere iki ana alana ayrılır. Modern web geliştirmede responsive design ve progressive web apps önemlidir.",
+    "tags": ["web", "geliştirme", "programlama", "frontend", "backend"],
+    "intent": "explanation",
+    "category": "technology",
+    "confidence": 0.88
+  },
+  "data_science": {
+    "content": "Veri bilimi, büyük veri setlerinden anlamlı bilgiler çıkarma ve bu bilgileri iş kararlarında kullanma sürecidir. İstatistik, makine öğrenmesi, veri görselleştirme ve veri analizi tekniklerini birleştirir.",
+    "tags": ["veri", "bilim", "analiz", "istatistik", "makine öğrenmesi"],
+    "intent": "explanation",
+    "category": "technology",
+    "confidence": 0.90
+  },
+  "artificial_intelligence": {
+    "content": "Yapay zeka, makinelerin insan benzeri düşünme ve öğrenme yeteneklerine sahip olmasını sağlayan teknolojidir. Machine learning, deep learning, natural language processing ve computer vision gibi alt alanları vardır.",
+    "tags": ["yapay zeka", "AI", "teknoloji", "gelecek", "otomasyon"],
+    "intent": "explanation",
+    "category": "technology",
+    "confidence": 0.94
+  },
+  "software_engineering": {
+    "content": "Yazılım mühendisliği, yazılım sistemlerinin tasarımı, geliştirilmesi, test edilmesi ve bakımı ile ilgilenen mühendislik dalıdır. Agile, Scrum, DevOps gibi metodolojiler kullanır.",
+    "tags": ["yazılım", "mühendislik", "geliştirme", "proje yönetimi"],
+    "intent": "explanation",
+    "category": "technology",
+    "confidence": 0.87
+  },
+  "database_systems": {
+    "content": "Veritabanı sistemleri, verilerin organize edilmiş şekilde saklanması ve yönetilmesi için kullanılan sistemlerdir. SQL ve NoSQL veritabanları olmak üzere iki ana kategoriye ayrılır.",
+    "tags": ["veritabanı", "SQL", "NoSQL", "veri yönetimi"],
+    "intent": "explanation",
+    "category": "technology",
+    "confidence": 0.85
+  },
+  "cybersecurity": {
+    "content": "Siber güvenlik, bilgisayar sistemlerini, ağları ve verileri dijital saldırılardan koruma sürecidir. Encryption, authentication, authorization ve network security gibi konuları kapsar.",
+    "tags": ["güvenlik", "siber", "şifreleme", "ağ güvenliği"],
+    "intent": "explanation",
+    "category": "technology",
+    "confidence": 0.89
+  },
+  "cloud_computing": {
+    "content": "Bulut bilişim, bilgisayar kaynaklarının internet üzerinden paylaşılması ve kullanılmasıdır. IaaS, PaaS ve SaaS olmak üzere üç ana servis modeli vardır. AWS, Azure ve Google Cloud popüler bulut sağlayıcılarıdır.",
+    "tags": ["bulut", "cloud", "AWS", "Azure", "Google Cloud"],
+    "intent": "explanation",
+    "category": "technology",
+    "confidence": 0.86
+  },
+  "mobile_development": {
+    "content": "Mobil uygulama geliştirme, iOS ve Android platformları için uygulama oluşturma sürecidir. Native, hybrid ve cross-platform geliştirme yaklaşımları bulunur. React Native, Flutter ve Xamarin popüler framework'lerdir.",
+    "tags": ["mobil", "uygulama", "iOS", "Android", "React Native"],
+    "intent": "explanation",
+    "category": "technology",
+    "confidence": 0.83
+  },
+  "blockchain": {
+    "content": "Blockchain, merkezi olmayan, güvenli ve şeffaf dijital kayıt tutma teknolojisidir. Bitcoin, Ethereum gibi kripto para birimlerinin temelini oluşturur. Smart contracts ve DeFi uygulamaları için kullanılır.",
+    "tags": ["blockchain", "kripto", "Bitcoin", "Ethereum", "DeFi"],
+    "intent": "explanation",
+    "category": "technology",
+    "confidence": 0.81
+  },
+  "internet_of_things": {
+    "content": "Nesnelerin İnterneti (IoT), günlük nesnelerin internet üzerinden veri alışverişi yapabilmesini sağlayan teknolojidir. Akıllı ev sistemleri, endüstriyel IoT ve wearables gibi uygulamaları vardır.",
+    "tags": ["IoT", "nesnelerin interneti", "akıllı ev", "endüstri"],
+    "intent": "explanation",
+    "category": "technology",
+    "confidence": 0.84
+  },
+  "virtual_reality": {
+    "content": "Sanal gerçeklik (VR), kullanıcıları tamamen sanal bir ortama sokan teknolojidir. Oyun, eğitim, sağlık ve eğlence sektörlerinde kullanılır. Oculus, HTC Vive ve PlayStation VR popüler VR cihazlarıdır.",
+    "tags": ["VR", "sanal gerçeklik", "oyun", "eğitim", "eğlence"],
+    "intent": "explanation",
+    "category": "technology",
+    "confidence": 0.82
+  },
+  "augmented_reality": {
+    "content": "Artırılmış gerçeklik (AR), gerçek dünya görüntüsüne dijital bilgiler ekleyen teknolojidir. Pokemon Go, Snapchat filtreleri ve Microsoft HoloLens gibi uygulamalar AR kullanır.",
+    "tags": ["AR", "artırılmış gerçeklik", "Pokemon Go", "Snapchat", "HoloLens"],
+    "intent": "explanation",
+    "category": "technology",
+    "confidence": 0.80
+  },
+  "quantum_computing": {
+    "content": "Kuantum bilgisayarlar, kuantum mekaniği prensiplerini kullanarak klasik bilgisayarlardan çok daha hızlı hesaplama yapabilir. IBM, Google ve Microsoft kuantum bilgisayar geliştirme konusunda öncü şirketlerdir.",
+    "tags": ["kuantum", "bilgisayar", "IBM", "Google", "Microsoft"],
+    "intent": "explanation",
+    "category": "technology",
+    "confidence": 0.78
+  },
+  "robotics": {
+    "content": "Robotik, robotların tasarımı, yapımı ve programlanması ile ilgilenen bilim dalıdır. Endüstriyel robotlar, servis robotları ve sosyal robotlar gibi farklı türleri vardır. Boston Dynamics ve iRobot önemli robotik şirketleridir.",
+    "tags": ["robotik", "robot", "endüstri", "servis", "Boston Dynamics"],
+    "intent": "explanation",
+    "category": "technology",
+    "confidence": 0.85
+  }
+}

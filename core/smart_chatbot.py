@@ -1,344 +1,425 @@
+#!/usr/bin/env python3
 """
-Gelişmiş AI Asistan - Kişilik Sistemi ile Entegre
-Akıllı yanıt sistemi ve kişilik yönetimi
+Smart Chatbot - Gelişmiş AI Chatbot Engine
+Kişilik, ML model ve bağlam yönetimini entegre eder
 """
-
-import re
-import json
-import random
-import logging
-from datetime import datetime
-from typing import Dict, List, Tuple, Optional
-from pathlib import Path
 
 from .personality import PersonalityManager
 from .model_trainer import ModelTrainer
-
+from .context_manager import ContextManager
+from .ai_engine import AIEngine
+from .logger import log_info, log_error, log_performance, log_user_action
+import random
+import time
+import re
+from pathlib import Path
+from typing import Dict, List, Tuple, Any
+from datetime import datetime
 
 class SmartChatbot:
-    """Gelişmiş AI Asistan - Kişilik Sistemi ile Entegre"""
-    
     def __init__(self, model_size: str = "medium"):
-        # Logging
-        self.logger = self._setup_logging()
-        
-        # Kişilik sistemi
-        self.personality_manager = PersonalityManager()
-        
-        # Model sistemi
-        self.model_trainer = ModelTrainer()
+        """SmartChatbot başlat"""
         self.model_size = model_size
+        self.start_time = time.time()
+        
+        # Core Managers
+        self.personality_manager = PersonalityManager()
+        self.model_trainer = ModelTrainer()
+        self.context_manager = ContextManager()
+        
+        # New AI Engine
+        self.ai_engine = AIEngine(model_size)
+        
+        # ML Model (Legacy support)
         self.classifier = None
         self.vectorizer = None
+        
+        # Responses
         self.responses = {}
         
-        # Konuşma geçmişi
-        self.conversation_history = []
-        
-        # İstatistikler
+        # Stats
         self.stats = {
             'total_requests': 0,
             'successful_requests': 0,
             'failed_requests': 0,
-            'average_response_time': 0.0
+            'total_response_time': 0.0,
+            'average_response_time': 0.0,
+            'ai_engine_requests': 0,
+            'legacy_model_requests': 0,
+            'start_time': time.time()
         }
         
-        # Model yükle
+        # Conversation history
+        self.conversation_history = []
+        
+        # Load components
         self._load_model()
         self._load_responses()
         
-        self.logger.info(f"🤖 SmartChatbot başlatıldı - Model: {model_size}")
-    
-    def _setup_logging(self) -> logging.Logger:
-        """Logging ayarları"""
-        logger = logging.getLogger('SmartChatbot')
-        logger.setLevel(logging.INFO)
-        
-        if not logger.handlers:
-            handler = logging.StreamHandler()
-            formatter = logging.Formatter(
-                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-            )
-            handler.setFormatter(formatter)
-            logger.addHandler(handler)
-        
-        return logger
+        log_info(f"🤖 SmartChatbot başlatıldı", model_size=model_size)
     
     def _load_model(self):
-        """Model yükle"""
+        """ML modelini yükle (Legacy support)"""
         try:
-            model_path = Path(f"models/{self.model_size}_model.pkl")
-            vectorizer_path = Path(f"models/{self.model_size}_vectorizer.pkl")
+            model_path = Path(f"models/chatbot_model_{self.model_size}.pkl")
+            vectorizer_path = Path(f"models/vectorizer_{self.model_size}.pkl")
             
             if model_path.exists() and vectorizer_path.exists():
-                self.classifier = self.model_trainer.load_model(str(model_path))
-                self.vectorizer = self.model_trainer.load_model(str(vectorizer_path))
-                self.logger.info(f"✅ Model yüklendi: {self.model_size}")
+                self.classifier = self.model_trainer.load_model(model_path)
+                self.vectorizer = self.model_trainer.load_vectorizer(vectorizer_path)
+                log_info(f"✅ Legacy ML model yüklendi", model_size=self.model_size)
             else:
-                self.logger.warning(f"⚠️ Model bulunamadı: {self.model_size}")
+                log_info(f"⚠️ Legacy ML model dosyaları bulunamadı, AI Engine kullanılıyor", 
+                        model_path=str(model_path), vectorizer_path=str(vectorizer_path))
                 
         except Exception as e:
-            self.logger.error(f"❌ Model yükleme hatası: {e}")
+            log_error(e, context={"operation": "legacy_model_loading", "model_size": self.model_size})
+            log_info("⚠️ Legacy model yüklenemedi, AI Engine kullanılıyor")
     
     def _load_responses(self):
         """Yanıt verilerini yükle"""
         try:
-            with open("data/training_datasets.json", "r", encoding="utf-8") as f:
-                data = json.load(f)
-            
-            for intent, content in data.items():
-                if "responses" in content:
-                    self.responses[intent] = content["responses"]
-            
-            self.logger.info(f"✅ {len(self.responses)} intent yüklendi")
-            
-        except Exception as e:
-            self.logger.error(f"❌ Yanıt yükleme hatası: {e}")
-    
-    def predict_intent(self, text: str) -> Tuple[str, float]:
-        """Intent tahmin et"""
-        try:
-            if not self.classifier or not self.vectorizer:
-                return "unknown", 0.0
-            
-            # Text'i vektörize et
-            X = self.vectorizer.transform([text])
-            
-            # Tahmin yap
-            intent = self.classifier.predict(X)[0]
-            confidence = max(self.classifier.predict_proba(X)[0])
-            
-            return intent, confidence
-            
-        except Exception as e:
-            self.logger.error(f"❌ Intent tahmin hatası: {e}")
-            return "unknown", 0.0
-    
-    def _analyze_sentiment(self, text: str) -> str:
-        """Basit duygu analizi"""
-        positive_words = ['güzel', 'harika', 'mükemmel', 'teşekkür', 'sevgi', 'mutlu', 'iyi']
-        negative_words = ['kötü', 'berbat', 'korkunç', 'sorun', 'problem', 'hata', 'üzgün']
-        
-        text_lower = text.lower()
-        
-        positive_count = sum(1 for word in positive_words if word in text_lower)
-        negative_count = sum(1 for word in negative_words if word in text_lower)
-        
-        if positive_count > negative_count:
-            return "positive"
-        elif negative_count > positive_count:
-            return "negative"
-        else:
-            return "neutral"
-    
-    def _handle_math_calculation(self, match) -> str:
-        """Matematik işlemi yap"""
-        try:
-            num1 = int(match.group(1))
-            operator = match.group(2)
-            num2 = int(match.group(3))
-            
-            if operator == '+':
-                result = num1 + num2
-            elif operator == '-':
-                result = num1 - num2
-            elif operator == '*':
-                result = num1 * num2
-            elif operator == '/':
-                if num2 == 0:
-                    return "Sıfıra bölme hatası! ❌"
-                result = num1 / num2
+            responses_file = Path("data/responses.json")
+            if responses_file.exists():
+                import json
+                with open(responses_file, 'r', encoding='utf-8') as f:
+                    self.responses = json.load(f)
+                log_info("✅ Yanıt verileri yüklendi", response_count=len(self.responses))
             else:
-                return "Desteklenmeyen işlem! ❌"
+                log_info("⚠️ Yanıt dosyası bulunamadı, varsayılan yanıtlar kullanılıyor")
+                self.responses = {
+                    "greeting": ["Merhaba!", "Selam!", "Hoş geldiniz!"],
+                    "farewell": ["Görüşürüz!", "Hoşça kalın!", "İyi günler!"],
+                    "unknown": ["Anlamadım, tekrar eder misiniz?", "Bu konuda bilgim yok."]
+                }
+        except Exception as e:
+            log_error(e, context={"operation": "responses_loading"})
+            log_info("⚠️ Yanıt verileri yüklenemedi, varsayılan yanıtlar kullanılıyor")
+    
+    def predict_intent(self, user_input: str) -> Tuple[str, float]:
+        """Kullanıcı mesajının amacını tahmin et"""
+        try:
+            # Try AI Engine first
+            if hasattr(self.ai_engine, 'nlp_processor'):
+                intent = self.ai_engine.nlp_processor.extract_intent(user_input)
+                # Simple confidence calculation based on pattern matching
+                confidence = self._calculate_intent_confidence(user_input, intent)
+                return intent, confidence
             
-            return f"{num1} {operator} {num2} = {result} ✅"
+            # Fallback to legacy ML model
+            if self.classifier and self.vectorizer:
+                features = self.vectorizer.transform([user_input])
+                prediction = self.classifier.predict(features)[0]
+                confidence = max(self.classifier.predict_proba(features)[0])
+                return prediction, confidence
+            
+            # Final fallback to keyword-based
+            return self._keyword_based_intent(user_input), 0.6
             
         except Exception as e:
-            return f"Hesaplama hatası: {e} ❌"
+            log_error(e, context={"operation": "intent_prediction"})
+            return "unknown", 0.5
     
-    def _generate_smart_response(self, user_input: str, intent: str, confidence: float) -> str:
-        """Akıllı yanıt oluştur"""
-        # Matematik işlemi kontrolü
-        math_match = re.search(r'(\d+)\s*([\+\-\*\/])\s*(\d+)', user_input)
-        if math_match:
-            return self._handle_math_calculation(math_match)
-        
-        # Intent tabanlı yanıt
-        if confidence > 0.6 and intent in self.responses:
-            base_response = random.choice(self.responses[intent])
-        else:
-            # Fallback yanıtlar
-            fallback_responses = [
-                "Bu konu hakkında size yardımcı olmaya çalışıyorum! 🤔",
-                "İlginç bir soru, biraz daha detay verebilir misiniz? 🤔",
-                "Bu konuda size nasıl yardımcı olabilirim? 🤔",
-                "Anlıyorum, bu konu hakkında düşünüyorum... 🤔",
-                "Size en iyi şekilde yardımcı olmaya çalışıyorum! 😊"
-            ]
-            base_response = random.choice(fallback_responses)
-        
-        return base_response
-    
-    def get_response(self, user_input: str, session_id: str = "default") -> str:
-        """Ana yanıt fonksiyonu"""
-        start_time = datetime.now()
-        
+    def _calculate_intent_confidence(self, user_input: str, intent: str) -> float:
+        """Intent confidence hesapla"""
         try:
-            self.stats['total_requests'] += 1
-            
-            # Input temizleme
-            user_input = user_input.strip()
-            if not user_input:
-                return "Lütfen bir mesaj yazın! 😊"
-            
-            # Intent tahmin et
-            intent, confidence = self.predict_intent(user_input)
-            
-            # Duygu analizi
-            sentiment = self._analyze_sentiment(user_input)
-            
-            # Akıllı yanıt oluştur
-            base_response = self._generate_smart_response(user_input, intent, confidence)
-            
-            # Kişilik ile yanıtı geliştir
-            context = {
-                'intent': intent,
-                'confidence': confidence,
-                'sentiment': sentiment,
-                'session_id': session_id
+            # Pattern-based confidence calculation
+            patterns = {
+                'question': [r'\?', r'nedir', r'nasıl', r'nerede', r'ne zaman', r'kim'],
+                'greeting': [r'merhaba', r'selam', r'hoş geldin', r'günaydın'],
+                'farewell': [r'görüşürüz', r'hoşça kal', r'iyi günler', r'iyi akşamlar'],
+                'casual': [r'nasılsın', r'naber', r'iyi misin'],
+                'formal': [r'lütfen', r'rica ederim', r'teşekkürler'],
+                'explanation': [r'açıkla', r'anlat', r'detay', r'bilgi']
             }
             
-            final_response = self.personality_manager.get_response_with_personality(
-                base_response, context
-            )
+            if intent in patterns:
+                for pattern in patterns[intent]:
+                    if re.search(pattern, user_input.lower()):
+                        return 0.9  # High confidence for pattern match
+                return 0.7  # Medium confidence for intent match
+            else:
+                return 0.6  # Default confidence
+                
+        except Exception:
+            return 0.5
+    
+    def _keyword_based_intent(self, user_input: str) -> str:
+        """Keyword-based intent detection"""
+        user_input_lower = user_input.lower()
+        
+        if any(word in user_input_lower for word in ['merhaba', 'selam', 'hoş geldin']):
+            return 'greeting'
+        elif any(word in user_input_lower for word in ['görüşürüz', 'hoşça kal', 'iyi günler']):
+            return 'farewell'
+        elif '?' in user_input or any(word in user_input_lower for word in ['nedir', 'nasıl', 'nerede']):
+            return 'question'
+        elif any(word in user_input_lower for word in ['açıkla', 'anlat', 'detay']):
+            return 'explanation'
+        else:
+            return 'general'
+    
+    def _analyze_sentiment(self, text: str) -> str:
+        """Metin duygu analizi"""
+        try:
+            positive_words = ['güzel', 'harika', 'mükemmel', 'sevimli', 'hoş', 'iyi']
+            negative_words = ['kötü', 'berbat', 'korkunç', 'üzgün', 'kızgın', 'kötü']
             
-            # Kişilik durumunu güncelle
-            self.personality_manager.update_personality_state(
-                user_input, final_response, intent
-            )
+            text_lower = text.lower()
+            positive_count = sum(1 for word in positive_words if word in text_lower)
+            negative_count = sum(1 for word in negative_words if word in text_lower)
             
-            # Konuşma geçmişine ekle
-            self.conversation_history.append({
-                'timestamp': datetime.now().isoformat(),
-                'user': user_input,
-                'bot': final_response,
-                'intent': intent,
-                'confidence': confidence,
-                'sentiment': sentiment
-            })
+            if positive_count > negative_count:
+                return 'positive'
+            elif negative_count > positive_count:
+                return 'negative'
+            else:
+                return 'neutral'
+                
+        except Exception:
+            return 'neutral'
+    
+    def _handle_math_calculation(self, user_input: str) -> Tuple[bool, str]:
+        """Matematik hesaplaması yap"""
+        try:
+            # Simple math pattern detection
+            math_pattern = r'(\d+[\+\-\*\/]\d+)'
+            matches = re.findall(math_pattern, user_input)
             
-            # İstatistikleri güncelle
-            response_time = (datetime.now() - start_time).total_seconds()
-            self.stats['successful_requests'] += 1
-            self.stats['average_response_time'] = (
-                (self.stats['average_response_time'] * (self.stats['successful_requests'] - 1) + response_time) 
-                / self.stats['successful_requests']
-            )
+            if matches:
+                for match in matches:
+                    try:
+                        result = eval(match)
+                        return True, f"{match} = {result}"
+                    except:
+                        continue
             
-            self.logger.info(f"✅ Yanıt oluşturuldu - Intent: {intent}, Confidence: {confidence:.3f}")
+            # Check for calculation keywords
+            calc_keywords = ['hesapla', 'topla', 'çıkar', 'çarp', 'böl']
+            if any(keyword in user_input.lower() for keyword in calc_keywords):
+                # Extract numbers and operation
+                numbers = re.findall(r'\d+', user_input)
+                if len(numbers) >= 2:
+                    # Simple addition for now
+                    result = sum(int(num) for num in numbers)
+                    return True, f"Sayıların toplamı: {result}"
             
-            return final_response
+            return False, ""
             
+        except Exception:
+            return False, ""
+    
+    def _generate_smart_response(self, user_input: str, intent: str, confidence: float) -> str:
+        """Akıllı yanıt üretimi"""
+        try:
+            # Check for math calculation
+            is_math, math_result = self._handle_math_calculation(user_input)
+            if is_math:
+                return math_result
+            
+            # Intent-based response generation
+            if intent == 'greeting':
+                responses = self.responses.get('greeting', ['Merhaba!', 'Selam!'])
+                return random.choice(responses)
+            
+            elif intent == 'farewell':
+                responses = self.responses.get('farewell', ['Görüşürüz!', 'Hoşça kalın!'])
+                return random.choice(responses)
+            
+            elif intent == 'question':
+                # Try to answer based on knowledge
+                return "Bu konuda size yardımcı olmaya çalışayım. Daha spesifik bir soru sorabilir misiniz?"
+            
+            elif intent == 'explanation':
+                return "Bu konuyu detaylı olarak açıklayayım. Hangi yönü hakkında daha fazla bilgi istiyorsunuz?"
+            
+            else:
+                # Default response
+                responses = self.responses.get('unknown', ['Anlamadım, tekrar eder misiniz?'])
+                return random.choice(responses)
+                
         except Exception as e:
-            self.stats['failed_requests'] += 1
-            self.logger.error(f"❌ Yanıt oluşturma hatası: {e}")
-            return "Üzgünüm, bir hata oluştu. Tekrar deneyebilir misiniz? 😔"
+            log_error(e, context={"operation": "smart_response_generation"})
+            return "Üzgünüm, bir hata oluştu. Lütfen tekrar deneyin."
     
-    def get_personality_info(self) -> Dict:
-        """Kişilik bilgilerini getir"""
-        return self.personality_manager.get_personality_info()
-    
-    def get_personality_summary(self) -> str:
-        """Kişilik özetini getir"""
-        return self.personality_manager.get_personality_summary()
-    
-    def get_conversation_history(self, limit: int = 10) -> List[Dict]:
-        """Konuşma geçmişini getir"""
-        return self.conversation_history[-limit:]
-    
-    def get_stats(self) -> Dict:
-        """İstatistikleri getir"""
-        return {
-            **self.stats,
-            'personality_info': self.get_personality_info(),
-            'model_size': self.model_size,
-            'loaded_intents': len(self.responses)
-        }
-    
-    def get_timestamp(self) -> str:
-        """Şu anki zaman damgası"""
-        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
-    def train_model(self, model_size: str = None):
-        """Model eğit"""
-        if model_size:
-            self.model_size = model_size
+    def get_response(self, user_input: str, session_id: str = "default") -> str:
+        """Ana yanıt üretimi"""
+        start_time = time.time()
         
         try:
-            self.logger.info(f"🚀 Model eğitimi başlatılıyor: {self.model_size}")
-            self.model_trainer.train_model(self.model_size)
-            self._load_model()
-            self.logger.info("✅ Model eğitimi tamamlandı")
+            # Update stats
+            self.stats['total_requests'] += 1
             
-        except Exception as e:
-            self.logger.error(f"❌ Model eğitimi hatası: {e}")
-    
-    def save_conversation(self):
-        """Konuşma geçmişini kaydet"""
-        try:
-            conversation_file = Path("data/conversation_history.json")
-            conversation_file.parent.mkdir(parents=True, exist_ok=True)
+            # Get context
+            context = self.context_manager.get_context(session_id)
             
-            with open(conversation_file, 'w', encoding='utf-8') as f:
-                json.dump(self.conversation_history, f, ensure_ascii=False, indent=2)
+            # Try AI Engine first (primary method)
+            try:
+                ai_response = self.ai_engine.generate_response(user_input, context)
+                if ai_response and not ai_response.get('error'):
+                    self.stats['ai_engine_requests'] += 1
+                    self.stats['successful_requests'] += 1
+                    
+                    # Update context
+                    self.context_manager.add_message(session_id, 'user', user_input)
+                    self.context_manager.add_message(session_id, 'bot', ai_response['response'])
+                    
+                    # Log performance
+                    response_time = time.time() - start_time
+                    self._update_response_time_stats(response_time)
+                    
+                    log_performance("ai_engine_response", response_time, {
+                        "session_id": session_id,
+                        "intent": ai_response.get('intent', 'unknown'),
+                        "confidence": ai_response.get('confidence', 0.0)
+                    })
+                    
+                    return ai_response['response']
+                    
+            except Exception as e:
+                log_error(e, context={"operation": "ai_engine_response", "session_id": session_id})
+                # Continue to fallback methods
             
-            self.logger.info("✅ Konuşma geçmişi kaydedildi")
-            
-        except Exception as e:
-            self.logger.error(f"❌ Konuşma kaydetme hatası: {e}")
-    
-    def load_conversation(self):
-        """Konuşma geçmişini yükle"""
-        try:
-            conversation_file = Path("data/conversation_history.json")
-            
-            if conversation_file.exists():
-                with open(conversation_file, 'r', encoding='utf-8') as f:
-                    self.conversation_history = json.load(f)
+            # Fallback to legacy methods
+            try:
+                # Intent prediction
+                intent, confidence = self.predict_intent(user_input)
                 
-                self.logger.info(f"✅ {len(self.conversation_history)} konuşma yüklendi")
+                # Generate response
+                response = self._generate_smart_response(user_input, intent, confidence)
+                
+                # Update context
+                self.context_manager.add_message(session_id, 'user', user_input)
+                self.context_manager.add_message(session_id, 'bot', response)
+                
+                # Update stats
+                self.stats['legacy_model_requests'] += 1
+                self.stats['successful_requests'] += 1
+                
+                # Log performance
+                response_time = time.time() - start_time
+                self._update_response_time_stats(response_time)
+                
+                log_performance("legacy_response", response_time, {
+                    "session_id": session_id,
+                    "intent": intent,
+                    "confidence": confidence
+                })
+                
+                return response
+                
+            except Exception as e:
+                log_error(e, context={"operation": "legacy_response_generation", "session_id": session_id})
+                self.stats['failed_requests'] += 1
+                
+                # Emergency fallback
+                return "Üzgünüm, şu anda teknik bir sorun yaşıyorum. Lütfen daha sonra tekrar deneyin."
             
         except Exception as e:
-            self.logger.error(f"❌ Konuşma yükleme hatası: {e}")
+            log_error(e, context={"operation": "get_response", "session_id": session_id})
+            self.stats['failed_requests'] += 1
+            return "Bir hata oluştu. Lütfen tekrar deneyin."
     
-    def clear_conversation(self):
-        """Konuşma geçmişini temizle"""
-        self.conversation_history = []
-        self.logger.info("✅ Konuşma geçmişi temizlendi")
+    def _update_response_time_stats(self, response_time: float):
+        """Yanıt süresi istatistiklerini güncelle"""
+        self.stats['total_response_time'] += response_time
+        total_requests = self.stats['successful_requests']
+        if total_requests > 0:
+            self.stats['average_response_time'] = self.stats['total_response_time'] / total_requests
     
-    def get_help_info(self) -> str:
-        """Yardım bilgilerini getir"""
-        return f"""
-🤖 {self.personality_manager.personality.name} v{self.personality_manager.personality.version}
-
-💬 Size şu konularda yardımcı olabilirim:
-• Günlük sohbet ve selamlaşma
-• Teknik sorunlar ve programlama
-• Öğrenme ve eğitim konuları
-• Matematik hesaplamaları
-• Kişilik ve ruh hali yönetimi
-
-🎯 Uzmanlık Alanlarım:
-{', '.join(self.personality_manager.personality.expertise_areas)}
-
-😊 Ruh Halim: {self.personality_manager.personality.mood}
-⚡ Enerji Seviyem: {self.personality_manager.personality.energy_level}/10
-
-💡 Nasıl kullanabilirsiniz:
-• Doğal dil ile konuşun
-• Sorularınızı sorun
-• Matematik işlemleri yapın (örn: 5 + 3)
-• Kişilik hakkında sorular sorun
-
-Her zaman size yardımcı olmaya hazırım! 😊
-        """.strip()
+    def get_personality_info(self) -> Dict[str, Any]:
+        """Kişilik bilgilerini getir"""
+        try:
+            base_personality = self.personality_manager.get_personality()
+            
+            # Add AI Engine capabilities
+            ai_capabilities = self.ai_engine.get_ai_capabilities()
+            
+            return {
+                **base_personality,
+                'ai_capabilities': ai_capabilities,
+                'model_size': self.model_size,
+                'engine_type': 'AI Engine + Legacy ML'
+            }
+            
+        except Exception as e:
+            log_error(e, context={"operation": "personality_info_retrieval"})
+            return {'error': 'Kişilik bilgileri alınamadı'}
+    
+    def get_context_info(self, session_id: str) -> Dict[str, Any]:
+        """Bağlam bilgilerini getir"""
+        try:
+            context = self.context_manager.get_context(session_id)
+            
+            # Add AI Engine memory info
+            memory_info = self.ai_engine.memory_system.get_memory_usage()
+            
+            return {
+                **context,
+                'ai_memory': memory_info,
+                'session_id': session_id,
+                'timestamp': datetime.now().isoformat()
+            }
+            
+        except Exception as e:
+            log_error(e, context={"operation": "context_info_retrieval", "session_id": session_id})
+            return {'error': 'Bağlam bilgileri alınamadı'}
+    
+    def get_stats(self) -> Dict[str, Any]:
+        """İstatistikleri getir"""
+        try:
+            # Combine legacy and AI Engine stats
+            ai_stats = self.ai_engine.get_performance_stats()
+            
+            return {
+                **self.stats,
+                'ai_engine_stats': ai_stats,
+                'uptime': time.time() - self.start_time,
+                'success_rate': (self.stats['successful_requests'] / max(self.stats['total_requests'], 1)) * 100,
+                'ai_engine_usage_rate': (self.stats['ai_engine_requests'] / max(self.stats['total_requests'], 1)) * 100
+            }
+            
+        except Exception as e:
+            log_error(e, context={"operation": "stats_retrieval"})
+            return {'error': 'İstatistikler alınamadı'}
+    
+    def get_timestamp(self) -> str:
+        """Mevcut timestamp'i getir"""
+        return datetime.now().isoformat()
+    
+    def retrain_model(self, model_size: str = None):
+        """Model'i yeniden eğit"""
+        try:
+            if model_size:
+                self.model_size = model_size
+            
+            log_info(f"🔄 Model yeniden eğitimi başlatılıyor", model_size=self.model_size)
+            
+            # Retrain legacy model
+            if hasattr(self.model_trainer, 'train_model'):
+                training_result = self.model_trainer.train_model(self.model_size)
+                log_info("✅ Legacy model yeniden eğitildi", result=training_result)
+            
+            # Reload AI Engine
+            self.ai_engine = AIEngine(self.model_size)
+            log_info("✅ AI Engine yeniden yüklendi", model_size=self.model_size)
+            
+        except Exception as e:
+            log_error(e, context={"operation": "model_retraining", "model_size": model_size})
+    
+    def get_model_info(self) -> Dict[str, Any]:
+        """Model bilgilerini getir"""
+        try:
+            return {
+                'model_size': self.model_size,
+                'legacy_model_loaded': self.classifier is not None,
+                'ai_engine_loaded': hasattr(self, 'ai_engine'),
+                'ai_capabilities': self.ai_engine.get_ai_capabilities() if hasattr(self, 'ai_engine') else {},
+                'personality_loaded': hasattr(self, 'personality_manager'),
+                'context_loaded': hasattr(self, 'context_manager'),
+                'timestamp': self.get_timestamp()
+            }
+            
+        except Exception as e:
+            log_error(e, context={"operation": "model_info_retrieval"})
+            return {'error': 'Model bilgileri alınamadı'}
