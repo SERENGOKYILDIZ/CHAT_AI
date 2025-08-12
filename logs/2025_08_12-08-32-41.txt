@@ -1,0 +1,19 @@
+2025-08-12 08:32:41 - AI_Chatbot - INFO - ✅ Logger handler başarıyla kuruldu
+2025-08-12 08:32:41 - AI_Chatbot - INFO - 📂 Tek log dosyası: 2025_08_12-08-32-41.txt
+2025-08-12 08:32:41 - AI_Chatbot - INFO - 🚀 Logger başlatıldı: AI_Chatbot
+2025-08-12 08:32:41 - AI_Chatbot - INFO - 📁 Log dosyası: D:\A_SCIENCES\PROJECTS\MYSELF\PYTHON\ChatBot\logs\2025_08_12-08-32-41.txt
+2025-08-12 08:32:41 - AI_Chatbot - INFO - 🚀 AI Engine başlatıldı
+2025-08-12 08:32:41 - AI_Chatbot - INFO - ⚠️ Legacy ML model dosyaları bulunamadı, AI Engine kullanılıyor
+2025-08-12 08:32:41 - AI_Chatbot - INFO - ⚠️ Yanıt dosyası bulunamadı, varsayılan yanıtlar kullanılıyor
+2025-08-12 08:32:41 - AI_Chatbot - INFO - 🤖 SmartChatbot başlatıldı
+2025-08-12 08:32:41 - AI_Chatbot - INFO - ✅ Chatbot başarıyla başlatıldı
+2025-08-12 08:32:41 - AI_Chatbot - INFO - 🚀 AI Engine yetenekleri yüklendi
+2025-08-12 08:32:42 - AI_Chatbot - INFO - 📊 System Status: CPU: 9.3% | Memory: 43.7% (10.4GB/23.7GB) | Disk: 28.2% | Process: 158.0MB
+2025-08-12 08:32:42 - AI_Chatbot - INFO - 🚀 AI Asistan başlatılıyor...
+2025-08-12 08:32:42 - AI_Chatbot - INFO - 📱 Web arayüzü: http://localhost:5000
+2025-08-12 08:32:42 - AI_Chatbot - INFO - 🔧 API endpoint: http://localhost:5000/chat
+2025-08-12 08:32:42 - AI_Chatbot - INFO - 🔍 Debug endpoint: http://localhost:5000/api/debug/info
+2025-08-12 08:32:42 - AI_Chatbot - INFO - 💚 Health check: http://localhost:5000/health
+2025-08-12 08:32:42 - AI_Chatbot - INFO - 📋 Log özeti: http://localhost:5000/api/logs/summary
+2025-08-12 08:32:42 - AI_Chatbot - INFO - 🧠 AI yetenekleri: http://localhost:5000/api/ai/capabilities
+2025-08-12 08:34:20 - AI_Chatbot - INFO - 🔄 Uygulama kapatılıyor...

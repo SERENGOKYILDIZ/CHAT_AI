@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Asistan - ChatGPT Benzeri Arayüz</title>
+    <title>AI Asistan</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -180,31 +180,7 @@
             color: white;
         }
 
-        .sidebar-footer {
-            padding: 16px;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .sidebar-footer .menu-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .sidebar-footer .menu-item:hover {
-            background: var(--hover-bg);
-            color: var(--text-primary);
-        }
+        /* Sidebar footer styles removed */
 
         /* Main Chat Area */
         .chat-main {
@@ -584,9 +560,9 @@
             padding: 12px 16px;
             border-radius: 8px;
             margin: 16px 24px;
-            display: none;
-        }
-
+                display: none;
+            }
+            
         .error-message.show {
             display: block;
         }
@@ -633,7 +609,7 @@
         }
 
         .stats-grid .feature-card {
-            padding: 16px;
+                padding: 16px;
             text-align: left;
         }
 
@@ -722,7 +698,7 @@
             background: var(--primary-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 16px;
+                padding: 16px;
             font-size: 14px;
             color: var(--text-primary);
             white-space: pre-wrap; /* Preserve line breaks */
@@ -786,25 +762,16 @@
             <div class="sidebar-header" onclick="startNewChatFromLogo()" style="cursor: pointer;">
                 <div class="logo">
                     <i class="fas fa-robot"></i>
-                </div>
+            </div>
                 <h1>AI Asistan</h1>
             </div>
-
+            
             <div class="chat-tabs" id="chatTabs">
                 <!-- Chat tabs will be populated here automatically -->
-            </div>
-
-            <div class="sidebar-footer">
-                <a href="#" class="menu-item" onclick="showChat()">
-                    <i class="fas fa-comments"></i>
-                    Sohbet
-                </a>
-                <a href="#" class="menu-item" onclick="showPanel('debug')">
-                    <i class="fas fa-bug"></i>
-                    Debug
-                </a>
-            </div>
         </div>
+
+            <!-- Sidebar footer removed -->
+            </div>
 
         <!-- Main Chat Area -->
         <div class="chat-main">
@@ -814,17 +781,12 @@
                     <div class="status-indicator" id="statusIndicator">
                         <i class="fas fa-circle"></i>
                         <span>Çevrimiçi</span>
-                    </div>
-                    <button class="header-btn" onclick="clearChat()">
-                        <i class="fas fa-trash"></i>
-                        Temizle
-                    </button>
-                    <button class="header-btn" onclick="toggleSidebar()">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-            </div>
-
+                                </div>
+                    <!-- Clear button removed -->
+                    <!-- Hamburger button removed -->
+                            </div>
+                        </div>
+                        
             <!-- Chat Messages Panel -->
             <div class="chat-messages" id="chatMessages">
                 <!-- Welcome message -->
@@ -837,7 +799,7 @@
                             <i class="fas fa-brain"></i>
                             <h3>Gelişmiş AI</h3>
                             <p>En son yapay zeka teknolojileri ile güçlendirilmiş</p>
-                        </div>
+                            </div>
                         <div class="feature-card">
                             <i class="fas fa-comments"></i>
                             <h3>Doğal Sohbet</h3>
@@ -847,28 +809,28 @@
                             <i class="fas fa-lightbulb"></i>
                             <h3>Yaratıcı Çözümler</h3>
                             <p>Karmaşık problemler için yaratıcı yaklaşımlar</p>
-                        </div>
+                    </div>
                         <div class="feature-card">
                             <i class="fas fa-shield-alt"></i>
                             <h3>Güvenli</h3>
                             <p>Güvenli ve özel sohbet deneyimi</p>
-                        </div>
-                    </div>
                 </div>
-            </div>
-
+                                </div>
+                            </div>
+                        </div>
+                        
             <!-- Features Panel -->
             <div class="panel" id="featuresPanel" style="display: none;">
                 <div class="panel-header">
                     <h2><i class="fas fa-star"></i> AI Asistan Özellikleri</h2>
-                </div>
+                        </div>
                 <div class="panel-content">
                     <div class="feature-grid">
                         <div class="feature-card">
                             <i class="fas fa-brain"></i>
                             <h3>Gelişmiş NLP</h3>
                             <p>Doğal dil işleme ile kullanıcı niyetlerini anlar ve uygun yanıtlar üretir.</p>
-                        </div>
+                            </div>
                         <div class="feature-card">
                             <i class="fas fa-memory"></i>
                             <h3>Hafıza Sistemi</h3>
@@ -878,26 +840,26 @@
                             <i class="fas fa-lightbulb"></i>
                             <h3>Yaratıcılık Modülü</h3>
                             <p>Metaforlar, benzetmeler ve yaratıcı sorular ile zengin yanıtlar.</p>
-                        </div>
+                    </div>
                         <div class="feature-card">
                             <i class="fas fa-cogs"></i>
                             <h3>Akıl Yürütme</h3>
                             <p>Mantıksal bağlantılar kurar ve bağlam analizi yapar.</p>
-                        </div>
+                </div>
                         <div class="feature-card">
                             <i class="fas fa-database"></i>
                             <h3>Bilgi Tabanı</h3>
                             <p>Geniş bilgi tabanından ilgili bilgileri çıkarır ve sunar.</p>
-                        </div>
+            </div>
                         <div class="feature-card">
                             <i class="fas fa-chart-line"></i>
                             <h3>Performans Takibi</h3>
                             <p>Detaylı performans metrikleri ve sistem durumu izleme.</p>
-                        </div>
-                    </div>
+        </div>
+                </div>
                 </div>
             </div>
-
+            
             <!-- Stats Panel -->
             <div class="panel" id="statsPanel" style="display: none;">
                 <div class="panel-header">
@@ -909,7 +871,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Debug Panel -->
             <div class="panel" id="debugPanel" style="display: none;">
                 <div class="panel-header">
@@ -930,7 +892,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Settings Panel -->
             <div class="panel" id="settingsPanel" style="display: none;">
                 <div class="panel-header">
@@ -946,7 +908,7 @@
                                 <option value="light">Açık Tema</option>
                                 <option value="auto">Otomatik</option>
                             </select>
-                        </div>
+                </div>
                         <div class="setting-item">
                             <label for="fontSizeSelect">Yazı Boyutu:</label>
                             <select id="fontSizeSelect" onchange="changeFontSize(this.value)">
@@ -954,8 +916,8 @@
                                 <option value="medium" selected>Orta</option>
                                 <option value="large">Büyük</option>
                             </select>
-                        </div>
-                    </div>
+            </div>
+                </div>
                     <div class="settings-section">
                         <h3>Chat Ayarları</h3>
                         <div class="setting-item">
@@ -969,7 +931,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="error-message" id="errorMessage"></div>
 
             <div class="typing-indicator" id="typingIndicator">
@@ -1033,14 +995,7 @@
                 this.parentElement.style.borderColor = 'var(--border-color)';
             });
 
-            // Handle input change to auto-create chat tab when typing starts
-            document.getElementById('chatInput').addEventListener('input', function() {
-                // If user starts typing and has a session but no tab yet, create the tab
-                if (currentSessionId && chatSessions[currentSessionId] && !document.getElementById('tab_' + currentSessionId)) {
-                    console.log('User started typing, creating chat tab for existing session');
-                    addChatTab('Yeni Sohbet', currentSessionId);
-                }
-            });
+            // Removed auto-tab creation on input - tabs only created when messages are sent
         }
 
         function autoResizeTextarea() {
@@ -1059,11 +1014,7 @@
                     startNewChat();
                 }
                 
-                // If user has a session but no tab yet, create the tab
-                if (currentSessionId && chatSessions[currentSessionId] && !document.getElementById('tab_' + currentSessionId)) {
-                    console.log('Enter pressed, creating chat tab for existing session');
-                    addChatTab('Yeni Sohbet', currentSessionId);
-                }
+                // Tab will be created automatically when message is added
                 
                 sendMessage();
             }
@@ -1086,7 +1037,7 @@
             console.log('Created new session:', chatSessions[currentSessionId]);
             
             // Update UI
-            document.getElementById('currentChatTitle').textContent = 'Yeni Sohbet';
+            document.getElementById('currentChatTitle').textContent = 'AI Asistan';
             document.getElementById('chatMessages').innerHTML = getWelcomeMessage();
             
             // Don't add chat tab yet - wait for first message
@@ -1115,7 +1066,7 @@
             console.log('Created new session from logo:', chatSessions[currentSessionId]);
             
             // Update UI - NO TAB ADDED YET
-            document.getElementById('currentChatTitle').textContent = 'Yeni Sohbet';
+            document.getElementById('currentChatTitle').textContent = 'AI Asistan';
             document.getElementById('chatMessages').innerHTML = getWelcomeMessage();
             
             // Save to localStorage
@@ -1251,7 +1202,7 @@
                     if (tab) {
                         tab.remove();
                         console.log('Tab removed from UI');
-                    } else {
+                        } else {
                         console.warn('Tab not found in UI:', 'tab_' + sessionId);
                     }
                     
@@ -1325,15 +1276,10 @@
                         }
                     });
                     
-                    // If no sessions exist, start a new one
-                    if (Object.keys(chatSessions).length === 0) {
-                        console.log('No sessions found, starting new chat');
-                        startNewChat();
-                    } else {
-                        // Load the most recent session
-                        console.log('Loading most recent session:', sortedSessions[0].id);
-                        switchToChat(sortedSessions[0].id, sortedSessions[0].title);
-                    }
+                    // Don't automatically load any session - show welcome message instead
+                    // User can manually click on any chat tab to continue
+                    console.log('Chat sessions loaded, showing welcome message');
+                    showWelcomeMessage();
                 } else {
                     console.log('No saved sessions found in localStorage, starting new chat');
                     startNewChat();
@@ -1364,36 +1310,24 @@
             }
         }
 
+        function showWelcomeMessage() {
+            // Show welcome message in chat area
+            document.getElementById('chatMessages').innerHTML = getWelcomeMessage();
+            document.getElementById('currentChatTitle').textContent = 'AI Asistan';
+            
+            // Clear current session
+                currentSessionId = null;
+            chatHistory = [];
+        }
+
         function getWelcomeMessage() {
             return `
                 <div class="welcome-message">
                     <h1>🤖 AI Asistan'a Hoş Geldiniz</h1>
                     <p>Gelişmiş yapay zeka teknolojisi ile sohbet edin, sorularınızı sorun ve yaratıcı çözümler bulun.</p>
                     
-                    <div class="feature-grid">
-                        <div class="feature-card">
-                            <i class="fas fa-brain"></i>
-                            <h3>Gelişmiş AI</h3>
-                            <p>En son yapay zeka teknolojileri ile güçlendirilmiş</p>
-                        </div>
-                        <div class="feature-card">
-                            <i class="fas fa-comments"></i>
-                            <h3>Doğal Sohbet</h3>
-                            <p>İnsan benzeri doğal dil işleme</p>
-                        </div>
-                        <div class="feature-card">
-                            <i class="fas fa-lightbulb"></i>
-                            <h3>Yaratıcı Çözümler</h3>
-                            <p>Karmaşık problemler için yaratıcı yaklaşımlar</p>
-                        </div>
-                        <div class="feature-card">
-                            <i class="fas fa-shield-alt"></i>
-                            <h3>Güvenli</h3>
-                            <p>Güvenli ve özel sohbet deneyimi</p>
-                        </div>
-                    </div>
-                </div>
-            `;
+
+                `;
         }
 
         async function sendMessage() {
@@ -1511,7 +1445,7 @@
                 <div class="message-content">
                     ${content}
                     <div class="message-time">${timestamp}</div>
-                </div>
+                        </div>
             `;
             
             chatMessages.appendChild(messageDiv);
@@ -1550,7 +1484,7 @@
                     console.log('Session has no messages, hiding tab:', sessionId);
                     tab.style.display = 'none';
                     return;
-                } else {
+                    } else {
                     // Show the tab if it was hidden
                     tab.style.display = 'flex';
                 }
@@ -1613,11 +1547,33 @@
             }, 5000);
         }
 
-        function clearChat() {
+        async function clearChat() {
             console.log('Clearing current chat...');
             
             if (confirm('Sohbet geçmişini temizlemek istediğinizden emin misiniz?')) {
                 try {
+                    // Log session summary before clearing
+                    if (currentSessionId && chatSessions[currentSessionId] && chatHistory.length > 0) {
+                        try {
+                            const sessionStartTime = new Date(chatSessions[currentSessionId].created);
+                            const sessionEndTime = new Date();
+                            const sessionDuration = (sessionEndTime - sessionStartTime) / 1000; // seconds
+                            
+                            await fetch('/api/chat/session-summary', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                                    session_id: currentSessionId,
+                                    messages: chatHistory,
+                                    session_duration: sessionDuration
+                                })
+                            });
+                            console.log('Session summary logged before clearing');
+                        } catch (logError) {
+                            console.warn('Failed to log session summary:', logError);
+                        }
+                    }
+                    
                     chatHistory = [];
                     console.log('Chat history cleared');
                     
@@ -1648,7 +1604,7 @@
                     
                     // Update UI
                     document.getElementById('chatMessages').innerHTML = getWelcomeMessage();
-                    document.getElementById('currentChatTitle').textContent = 'Yeni Sohbet';
+                    document.getElementById('currentChatTitle').textContent = 'AI Asistan';
                     
                     console.log('Chat cleared successfully');
                     
@@ -1659,11 +1615,35 @@
             }
         }
 
-        function clearAllData() {
+        async function clearAllData() {
             console.log('Clearing all data...');
             
             if (confirm('TÜM sohbet verileri ve localStorage temizlenecek. Bu işlem geri alınamaz! Devam etmek istiyor musunuz?')) {
                 try {
+                    // Log all session summaries before clearing
+                    for (const [sessionId, session] of Object.entries(chatSessions)) {
+                        if (session.messages && session.messages.length > 0) {
+                            try {
+                                const sessionStartTime = new Date(session.created);
+                                const sessionEndTime = new Date();
+                                const sessionDuration = (sessionEndTime - sessionStartTime) / 1000; // seconds
+                                
+                                await fetch('/api/chat/session-summary', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                                        session_id: sessionId,
+                                        messages: session.messages,
+                                        session_duration: sessionDuration
+                                    })
+                                });
+                                console.log(`Session summary logged for ${sessionId}`);
+                            } catch (logError) {
+                                console.warn(`Failed to log session summary for ${sessionId}:`, logError);
+                            }
+                        }
+                    }
+                    
                     // Clear all sessions
                     chatSessions = {};
                     chatHistory = [];
@@ -1678,7 +1658,7 @@
                     // Clear UI
                     document.getElementById('chatTabs').innerHTML = '';
                     document.getElementById('chatMessages').innerHTML = getWelcomeMessage();
-                    document.getElementById('currentChatTitle').textContent = 'Yeni Sohbet';
+                    document.getElementById('currentChatTitle').textContent = 'AI Asistan';
                     
                     // Start fresh
                     startNewChat();
@@ -1720,35 +1700,40 @@
             // Show the selected panel
             document.getElementById(panelName + 'Panel').classList.add('show');
 
-            // Update sidebar menu item
-            document.querySelectorAll('.sidebar-footer .menu-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            document.querySelector(`.sidebar-footer .menu-item[onclick="showPanel('${panelName}')"]`).classList.add('active');
+            // Sidebar menu item update removed
         }
 
-        function showChat() {
-            // Hide all panels
-            document.querySelectorAll('.panel').forEach(panel => {
-                panel.classList.remove('show');
-            });
+        // showChat function removed
 
-            // Show chat messages
-            document.getElementById('chatMessages').style.display = 'block';
-
-            // Remove active from all sidebar menu items
-            document.querySelectorAll('.sidebar-footer .menu-item').forEach(item => {
-                item.classList.remove('active');
-            });
-        }
-
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('show');
-        }
+        // toggleSidebar function removed
 
         // Periodic connection check
         setInterval(checkConnectionStatus, 30000); // Check every 30 seconds
+        
+        // Log session summary when page is about to unload
+        window.addEventListener('beforeunload', async function(event) {
+            if (currentSessionId && chatSessions[currentSessionId] && chatHistory.length > 0) {
+                try {
+                    const sessionStartTime = new Date(chatSessions[currentSessionId].created);
+                    const sessionEndTime = new Date();
+                    const sessionDuration = (sessionEndTime - sessionStartTime) / 1000; // seconds
+                    
+                    // Use sendBeacon for reliable logging during page unload
+                    const data = {
+                        session_id: currentSessionId,
+                        messages: chatHistory,
+                        session_duration: sessionDuration
+                    };
+                    
+                    // Create blob with proper content type
+                    const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+                    navigator.sendBeacon('/api/chat/session-summary', blob);
+                    console.log('Session summary logged on page unload');
+                } catch (error) {
+                    console.warn('Failed to log session summary on unload:', error);
+                }
+            }
+        });
 
         // Panel functionality functions
         async function loadStats() {
@@ -1766,27 +1751,27 @@
                         <i class="fas fa-chart-line"></i>
                         <h3>${data.total_requests || 0}</h3>
                         <p>Toplam İstek</p>
-                    </div>
+                        </div>
                     <div class="feature-card">
                         <i class="fas fa-check-circle"></i>
                         <h3>${data.successful_requests || 0}</h3>
                         <p>Başarılı İstek</p>
-                    </div>
+                        </div>
                     <div class="feature-card">
                         <i class="fas fa-percentage"></i>
                         <h3>${Math.round((data.successful_requests || 0) / Math.max(data.total_requests || 1, 1) * 100)}%</h3>
                         <p>Başarı Oranı</p>
-                    </div>
+                        </div>
                     <div class="feature-card">
                         <i class="fas fa-clock"></i>
                         <h3>${Math.round((data.average_response_time || 0) * 1000)}ms</h3>
                         <p>Ortalama Yanıt Süresi</p>
-                    </div>
+                        </div>
                     <div class="feature-card">
                         <i class="fas fa-comments"></i>
                         <h3>${chatHistory.length}</h3>
                         <p>Bu Oturumda Mesaj</p>
-                    </div>
+                        </div>
                     <div class="feature-card">
                         <i class="fas fa-server"></i>
                         <h3>${Math.round((data.uptime || 0) / 60)}m</h3>
@@ -1832,16 +1817,16 @@
                     <div style="margin-bottom: 16px;">
                         <h4 style="color: var(--error-color); margin-bottom: 8px;">🔴 En Son Hatalar</h4>
                         <p><strong>Hata Dizini:</strong> ${data.errors_directory || 'Bilinmiyor'}</p>
-                    </div>
+                        </div>
                     <div style="margin-bottom: 16px;">
                         <h4 style="color: var(--warning-color); margin-bottom: 8px;">📁 Hata Dosyaları:</h4>
                         <pre style="background: var(--primary-bg); padding: 8px; border-radius: 4px; font-size: 12px;">${data.latest_errors?.all_error_files ? data.latest_errors.all_error_files.map(file => `${file.filename} (${file.size_mb} MB) - ${file.modified}`).join('\n') : 'Hata dosyası bulunamadı'}</pre>
-                    </div>
+                        </div>
                     <div>
                         <h4 style="color: var(--accent-color); margin-bottom: 8px;">📋 En Son Hata Detayları:</h4>
                         <pre style="background: var(--primary-bg); padding: 8px; border-radius: 4px; font-size: 12px; max-height: 200px; overflow-y: auto;">${data.latest_errors?.latest_error_details || 'Hata detayı bulunamadı'}</pre>
-                    </div>
-                `;
+                        </div>
+                    `;
                 
             } catch (error) {
                 console.error('Error loading latest errors:', error);
@@ -1859,8 +1844,8 @@
                     <div style="margin-bottom: 16px;">
                         <h4 style="color: var(--success-color); margin-bottom: 8px;">🟢 Sistem Durumu</h4>
                         <pre style="background: var(--primary-bg); padding: 8px; border-radius: 4px; font-size: 12px;">${JSON.stringify(data, null, 2)}</pre>
-                    </div>
-                `;
+                                </div>
+                            `;
                 
             } catch (error) {
                 console.error('Error checking system status:', error);

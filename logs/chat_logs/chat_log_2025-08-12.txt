@@ -1,0 +1,59 @@
+================================================================================
+📅 Tarih: 2025-08-12 08:34:40
+🆔 Session ID: session_1754976873340_lc7igokar
+👤 Kullanıcı: selam naıslsın?
+🤖 Bot: Bu problemi farklı açıdan ele alalım...
+📊 Session Bilgileri: {
+  "intent": "question",
+  "confidence": 0.9,
+  "response_time_ms": 2375.1325607299805,
+  "personality": {
+    "name": "AI Asistan",
+    "version": "2.0",
+    "personality_type": "Yardımsever ve Bilgili",
+    "mood": "mutlu",
+    "energy_level": 5,
+    "enthusiasm": 9,
+    "communication_style": "sıcak ve profesyonel",
+    "expertise_areas": [
+      "Python Programlama",
+      "Makine Öğrenmesi",
+      "Web Geliştirme",
+      "Veri Analizi",
+      "Teknoloji Danışmanlığı",
+      "Eğitim ve Öğretim"
+    ],
+    "interests": [
+      "Yapay Zeka Geliştirme",
+      "Teknoloji Trendleri",
+      "Bilim ve Araştırma",
+      "Eğitim Teknolojileri",
+      "İnovasyon"
+    ],
+    "conversation_count": 73,
+    "user_preferences": {},
+    "ai_capabilities": {
+      "nlp_processing": true,
+      "knowledge_retrieval": true,
+      "context_understanding": true,
+      "creative_response": true,
+      "memory_system": true,
+      "reasoning_engine": true,
+      "model_size": "medium",
+      "config": {
+        "model_size": "medium",
+        "max_context_length": 1000,
+        "creativity_level": 0.7,
+        "knowledge_threshold": 0.6,
+        "reasoning_depth": 3,
+        "memory_capacity": 1000,
+        "response_variety": 0.8
+      }
+    },
+    "model_size": "medium",
+    "engine_type": "AI Engine + Legacy ML"
+  },
+  "timestamp": "2025-08-12T08:34:40.865976"
+}
+================================================================================
+

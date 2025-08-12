@@ -232,6 +232,85 @@ class ChatbotLogger:
             message += f" - Details: {details}"
         
         self.logger.info(message)
+
+    def log_chat_conversation(self, session_id: str, user_message: str, bot_response: str, 
+                            session_info: Dict[str, Any] = None):
+        """Log complete chat conversations to separate chat logs directory"""
+        try:
+            # Create chat logs directory
+            chat_logs_dir = os.path.join(self.base_log_dir, "chat_logs")
+            os.makedirs(chat_logs_dir, exist_ok=True)
+            
+            # Create daily chat log file
+            current_date = datetime.now().strftime("%Y-%m-%d")
+            chat_log_file = os.path.join(chat_logs_dir, f"chat_log_{current_date}.txt")
+            
+            # Prepare conversation data
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            conversation_data = {
+                "timestamp": timestamp,
+                "session_id": session_id,
+                "user_message": user_message,
+                "bot_response": bot_response,
+                "session_info": session_info or {}
+            }
+            
+            # Write to chat log file
+            with open(chat_log_file, 'a', encoding='utf-8') as f:
+                f.write("=" * 80 + "\n")
+                f.write(f"📅 Tarih: {timestamp}\n")
+                f.write(f"🆔 Session ID: {session_id}\n")
+                f.write(f"👤 Kullanıcı: {user_message}\n")
+                f.write(f"🤖 Bot: {bot_response}\n")
+                if session_info:
+                    f.write(f"📊 Session Bilgileri: {json.dumps(session_info, ensure_ascii=False, indent=2)}\n")
+                f.write("=" * 80 + "\n\n")
+            
+            # Also log to main logger
+            self.logger.info(f"💬 Chat logged: Session {session_id} - User: {user_message[:50]}...")
+            
+        except Exception as e:
+            self.logger.error(f"Error logging chat conversation: {e}")
+
+    def log_chat_session_summary(self, session_id: str, messages: list, session_duration: float = None):
+        """Log chat session summary for analysis"""
+        try:
+            # Create chat analysis directory
+            analysis_dir = os.path.join(self.base_log_dir, "chat_analysis")
+            os.makedirs(analysis_dir, exist_ok=True)
+            
+            # Create monthly analysis file
+            current_month = datetime.now().strftime("%Y-%m")
+            analysis_file = os.path.join(analysis_dir, f"session_analysis_{current_month}.txt")
+            
+            # Calculate session statistics
+            user_messages = [msg for msg in messages if msg.get('type') == 'user']
+            bot_messages = [msg for msg in messages if msg.get('type') == 'bot']
+            
+            session_stats = {
+                "session_id": session_id,
+                "total_messages": len(messages),
+                "user_messages": len(user_messages),
+                "bot_messages": len(bot_messages),
+                "session_duration_seconds": session_duration,
+                "average_user_message_length": sum(len(msg.get('content', '')) for msg in user_messages) / max(len(user_messages), 1),
+                "average_bot_response_length": sum(len(msg.get('content', '')) for msg in bot_messages) / max(len(bot_messages), 1),
+                "created_at": datetime.now().isoformat()
+            }
+            
+            # Write to analysis file
+            with open(analysis_file, 'a', encoding='utf-8') as f:
+                f.write("=" * 80 + "\n")
+                f.write(f"📊 SESSION ANALYSIS - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                f.write(f"🆔 Session ID: {session_id}\n")
+                f.write(f"📈 İstatistikler: {json.dumps(session_stats, ensure_ascii=False, indent=2)}\n")
+                f.write("=" * 80 + "\n\n")
+            
+            # Also log to main logger
+            self.logger.info(f"📊 Session analysis logged: {session_id} - {len(messages)} messages")
+            
+        except Exception as e:
+            self.logger.error(f"Error logging session summary: {e}")
     
     def log_system_status(self):
         """Log system status information"""
@@ -431,3 +510,12 @@ def log_chat_interaction(user_message: str, bot_response: str, user_id: str,
 def log_ai_activity(activity: str, details: Optional[Dict] = None):
     """Log AI activity"""
     logger.log_ai_activity(activity, details)
+
+def log_chat_conversation(session_id: str, user_message: str, bot_response: str, 
+                         session_info: Dict[str, Any] = None):
+    """Log chat conversation"""
+    logger.log_chat_conversation(session_id, user_message, bot_response, session_info)
+
+def log_chat_session_summary(session_id: str, messages: list, session_duration: float = None):
+    """Log chat session summary"""
+    logger.log_chat_session_summary(session_id, messages, session_duration)
