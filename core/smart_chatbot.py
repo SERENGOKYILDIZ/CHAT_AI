@@ -5,7 +5,6 @@ Kişilik, ML model ve bağlam yönetimini entegre eder
 """
 
 from .personality import PersonalityManager
-from .model_trainer import ModelTrainer
 from .context_manager import ContextManager
 from .ai_engine import AIEngine
 from .logger import log_info, log_error, log_performance, log_user_action
@@ -24,15 +23,14 @@ class SmartChatbot:
         
         # Core Managers
         self.personality_manager = PersonalityManager()
-        self.model_trainer = ModelTrainer()
         self.context_manager = ContextManager()
         
         # New AI Engine
         self.ai_engine = AIEngine(model_size)
         
-        # ML Model (Legacy support)
-        self.classifier = None
-        self.vectorizer = None
+        # ML Model (Legacy support - removed)
+        # self.classifier = None
+        # self.vectorizer = None
         
         # Responses
         self.responses = {}
@@ -45,7 +43,6 @@ class SmartChatbot:
             'total_response_time': 0.0,
             'average_response_time': 0.0,
             'ai_engine_requests': 0,
-            'legacy_model_requests': 0,
             'start_time': time.time()
         }
         
@@ -61,13 +58,13 @@ class SmartChatbot:
     def _load_model(self):
         """ML modelini yükle (Legacy support)"""
         try:
-            model_path = Path(f"models/chatbot_model_{self.model_size}.pkl")
-            vectorizer_path = Path(f"models/vectorizer_{self.model_size}.pkl")
+            model_path = Path(f"data/models/chatbot_model_{self.model_size}.pkl")
+            vectorizer_path = Path(f"data/models/vectorizer_{self.model_size}.pkl")
             
             if model_path.exists() and vectorizer_path.exists():
-                self.classifier = self.model_trainer.load_model(model_path)
-                self.vectorizer = self.model_trainer.load_vectorizer(vectorizer_path)
-                log_info(f"✅ Legacy ML model yüklendi", model_size=self.model_size)
+                # Legacy model loading removed - using AI Engine only
+                log_info(f"⚠️ Legacy ML model dosyaları bulunamadı, AI Engine kullanılıyor", 
+                        model_path=str(model_path), vectorizer_path=str(vectorizer_path))
             else:
                 log_info(f"⚠️ Legacy ML model dosyaları bulunamadı, AI Engine kullanılıyor", 
                         model_path=str(model_path), vectorizer_path=str(vectorizer_path))
@@ -106,14 +103,7 @@ class SmartChatbot:
                 confidence = self._calculate_intent_confidence(user_input, intent)
                 return intent, confidence
             
-            # Fallback to legacy ML model
-            if self.classifier and self.vectorizer:
-                features = self.vectorizer.transform([user_input])
-                prediction = self.classifier.predict(features)[0]
-                confidence = max(self.classifier.predict_proba(features)[0])
-                return prediction, confidence
-            
-            # Final fallback to keyword-based
+            # Fallback to keyword-based
             return self._keyword_based_intent(user_input), 0.6
             
         except Exception as e:

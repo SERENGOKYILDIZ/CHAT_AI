@@ -1,0 +1,479 @@
+{
+  "session_1754986330782_bfe316dc": {
+    "session_id": "session_1754986330782_bfe316dc",
+    "created_at": "2025-08-12T11:25:10.242887",
+    "last_updated": "2025-08-12T11:25:12.636457",
+    "messages": [
+      {
+        "timestamp": "2025-08-12T11:25:12.636457",
+        "user_message": "te",
+        "bot_response": "Sorunu çözmek için yaratıcı bir yaklaşım deneyelim...",
+        "intent": "general",
+        "confidence": 0.5,
+        "sentiment": "neutral"
+      }
+    ],
+    "entities": {
+      "names": [],
+      "places": [],
+      "things": [],
+      "dates": [],
+      "numbers": []
+    },
+    "topics": [],
+    "current_topic": "genel",
+    "topic_confidence": 0.0,
+    "logical_connections": [],
+    "questions_asked": [],
+    "assumptions": [],
+    "sentiment_history": [
+      {
+        "sentiment": "neutral",
+        "timestamp": "2025-08-12T11:25:12.636457"
+      }
+    ],
+    "intent_history": [
+      {
+        "intent": "general",
+        "confidence": 0.5,
+        "timestamp": "2025-08-12T11:25:12.636457"
+      }
+    ],
+    "user_preferences": {},
+    "conversation_flow": [
+      "general"
+    ],
+    "context_switches": [],
+    "memory_anchors": {}
+  },
+  "session_1754987121148_8a5f4a33": {
+    "session_id": "session_1754987121148_8a5f4a33",
+    "created_at": "2025-08-12T11:25:21.522181",
+    "last_updated": "2025-08-12T11:25:21.522181",
+    "messages": [
+      {
+        "timestamp": "2025-08-12T11:25:21.522181",
+        "user_message": "Merhaba",
+        "bot_response": "Bu problemi farklı açıdan ele alalım... Peki ya şöyle düşünürsek?",
+        "intent": "general",
+        "confidence": 0.5,
+        "sentiment": "neutral"
+      }
+    ],
+    "entities": {
+      "names": [],
+      "places": [],
+      "things": [],
+      "dates": [],
+      "numbers": []
+    },
+    "topics": [],
+    "current_topic": "genel",
+    "topic_confidence": 0.0,
+    "logical_connections": [],
+    "questions_asked": [],
+    "assumptions": [],
+    "sentiment_history": [
+      {
+        "sentiment": "neutral",
+        "timestamp": "2025-08-12T11:25:21.522181"
+      }
+    ],
+    "intent_history": [
+      {
+        "intent": "general",
+        "confidence": 0.5,
+        "timestamp": "2025-08-12T11:25:21.522181"
+      }
+    ],
+    "user_preferences": {},
+    "conversation_flow": [
+      "general"
+    ],
+    "context_switches": [],
+    "memory_anchors": {}
+  },
+  "session_1754987285927_6ed851c9": {
+    "session_id": "session_1754987285927_6ed851c9",
+    "created_at": "2025-08-12T11:28:06.501062",
+    "last_updated": "2025-08-12T11:28:26.628437",
+    "messages": [
+      {
+        "timestamp": "2025-08-12T11:28:08.840305",
+        "user_message": "Deneme",
+        "bot_response": "✨ Özel olarak: Bu problemi farklı açıdan ele alalım...",
+        "intent": "general",
+        "confidence": 0.5,
+        "sentiment": "neutral"
+      },
+      {
+        "timestamp": "2025-08-12T11:28:26.628437",
+        "user_message": "deneme",
+        "bot_response": "Sorunu çözmek için yaratıcı bir yaklaşım deneyelim... İlginç bir soru: ...",
+        "intent": "general",
+        "confidence": 0.5,
+        "sentiment": "neutral"
+      }
+    ],
+    "entities": {
+      "names": [],
+      "places": [],
+      "things": [],
+      "dates": [],
+      "numbers": []
+    },
+    "topics": [],
+    "current_topic": "genel",
+    "topic_confidence": 0.0,
+    "logical_connections": [],
+    "questions_asked": [],
+    "assumptions": [],
+    "sentiment_history": [
+      {
+        "sentiment": "neutral",
+        "timestamp": "2025-08-12T11:28:08.840305"
+      },
+      {
+        "sentiment": "neutral",
+        "timestamp": "2025-08-12T11:28:26.628437"
+      }
+    ],
+    "intent_history": [
+      {
+        "intent": "general",
+        "confidence": 0.5,
+        "timestamp": "2025-08-12T11:28:08.840305"
+      },
+      {
+        "intent": "general",
+        "confidence": 0.5,
+        "timestamp": "2025-08-12T11:28:26.628437"
+      }
+    ],
+    "user_preferences": {},
+    "conversation_flow": [
+      "general",
+      "general"
+    ],
+    "context_switches": [],
+    "memory_anchors": {}
+  },
+  "session_1754987312518_baad1784": {
+    "session_id": "session_1754987312518_baad1784",
+    "created_at": "2025-08-12T11:28:33.247874",
+    "last_updated": "2025-08-12T11:28:33.248874",
+    "messages": [
+      {
+        "timestamp": "2025-08-12T11:28:33.248874",
+        "user_message": "gsdfg",
+        "bot_response": "Standart çözümlerin yanında alternatif bir yol var...",
+        "intent": "general",
+        "confidence": 0.5,
+        "sentiment": "neutral"
+      }
+    ],
+    "entities": {
+      "names": [],
+      "places": [],
+      "things": [],
+      "dates": [],
+      "numbers": []
+    },
+    "topics": [],
+    "current_topic": "genel",
+    "topic_confidence": 0.0,
+    "logical_connections": [],
+    "questions_asked": [],
+    "assumptions": [],
+    "sentiment_history": [
+      {
+        "sentiment": "neutral",
+        "timestamp": "2025-08-12T11:28:33.248874"
+      }
+    ],
+    "intent_history": [
+      {
+        "intent": "general",
+        "confidence": 0.5,
+        "timestamp": "2025-08-12T11:28:33.248874"
+      }
+    ],
+    "user_preferences": {},
+    "conversation_flow": [
+      "general"
+    ],
+    "context_switches": [],
+    "memory_anchors": {}
+  },
+  "session_1754987552242_cf1fdd66": {
+    "session_id": "session_1754987552242_cf1fdd66",
+    "created_at": "2025-08-12T11:32:32.981092",
+    "last_updated": "2025-08-12T11:32:35.405987",
+    "messages": [
+      {
+        "timestamp": "2025-08-12T11:32:35.405987",
+        "user_message": "selam",
+        "bot_response": "Sorunu çözmek için yaratıcı bir yaklaşım deneyelim...",
+        "intent": "general",
+        "confidence": 0.5,
+        "sentiment": "neutral"
+      }
+    ],
+    "entities": {
+      "names": [],
+      "places": [],
+      "things": [],
+      "dates": [],
+      "numbers": []
+    },
+    "topics": [],
+    "current_topic": "genel",
+    "topic_confidence": 0.0,
+    "logical_connections": [],
+    "questions_asked": [],
+    "assumptions": [],
+    "sentiment_history": [
+      {
+        "sentiment": "neutral",
+        "timestamp": "2025-08-12T11:32:35.405987"
+      }
+    ],
+    "intent_history": [
+      {
+        "intent": "general",
+        "confidence": 0.5,
+        "timestamp": "2025-08-12T11:32:35.405987"
+      }
+    ],
+    "user_preferences": {},
+    "conversation_flow": [
+      "general"
+    ],
+    "context_switches": [],
+    "memory_anchors": {}
+  },
+  "session_1754987774671_696bfb6d": {
+    "session_id": "session_1754987774671_696bfb6d",
+    "created_at": "2025-08-12T11:36:15.239904",
+    "last_updated": "2025-08-12T11:36:26.867051",
+    "messages": [
+      {
+        "timestamp": "2025-08-12T11:36:17.781083",
+        "user_message": "Deneme",
+        "bot_response": "Bu problemi farklı açıdan ele alalım...",
+        "intent": "general",
+        "confidence": 0.5,
+        "sentiment": "neutral"
+      },
+      {
+        "timestamp": "2025-08-12T11:36:26.867051",
+        "user_message": "Adın ne?",
+        "bot_response": "Sorunu çözmek için yaratıcı bir yaklaşım deneyelim...",
+        "intent": "general",
+        "confidence": 0.5,
+        "sentiment": "neutral"
+      }
+    ],
+    "entities": {
+      "names": [],
+      "places": [],
+      "things": [],
+      "dates": [],
+      "numbers": []
+    },
+    "topics": [],
+    "current_topic": "genel",
+    "topic_confidence": 0.0,
+    "logical_connections": [],
+    "questions_asked": [],
+    "assumptions": [],
+    "sentiment_history": [
+      {
+        "sentiment": "neutral",
+        "timestamp": "2025-08-12T11:36:17.781083"
+      },
+      {
+        "sentiment": "neutral",
+        "timestamp": "2025-08-12T11:36:26.867051"
+      }
+    ],
+    "intent_history": [
+      {
+        "intent": "general",
+        "confidence": 0.5,
+        "timestamp": "2025-08-12T11:36:17.781083"
+      },
+      {
+        "intent": "general",
+        "confidence": 0.5,
+        "timestamp": "2025-08-12T11:36:26.867051"
+      }
+    ],
+    "user_preferences": {},
+    "conversation_flow": [
+      "general",
+      "general"
+    ],
+    "context_switches": [],
+    "memory_anchors": {}
+  },
+  "session_1754987993658_ddd7f58a": {
+    "session_id": "session_1754987993658_ddd7f58a",
+    "created_at": "2025-08-12T11:39:54.010454",
+    "last_updated": "2025-08-12T11:39:56.338142",
+    "messages": [
+      {
+        "timestamp": "2025-08-12T11:39:56.338142",
+        "user_message": "selam",
+        "bot_response": "Standart çözümlerin yanında alternatif bir yol var... İlginç bir soru: ...",
+        "intent": "general",
+        "confidence": 0.5,
+        "sentiment": "neutral"
+      }
+    ],
+    "entities": {
+      "names": [],
+      "places": [],
+      "things": [],
+      "dates": [],
+      "numbers": []
+    },
+    "topics": [],
+    "current_topic": "genel",
+    "topic_confidence": 0.0,
+    "logical_connections": [],
+    "questions_asked": [],
+    "assumptions": [],
+    "sentiment_history": [
+      {
+        "sentiment": "neutral",
+        "timestamp": "2025-08-12T11:39:56.338142"
+      }
+    ],
+    "intent_history": [
+      {
+        "intent": "general",
+        "confidence": 0.5,
+        "timestamp": "2025-08-12T11:39:56.338142"
+      }
+    ],
+    "user_preferences": {},
+    "conversation_flow": [
+      "general"
+    ],
+    "context_switches": [],
+    "memory_anchors": {}
+  },
+  "session_1754988207881_f0e3a3a7": {
+    "session_id": "session_1754988207881_f0e3a3a7",
+    "created_at": "2025-08-12T11:43:28.255498",
+    "last_updated": "2025-08-12T11:44:54.836441",
+    "messages": [
+      {
+        "timestamp": "2025-08-12T11:43:30.739186",
+        "user_message": "merhaba",
+        "bot_response": "Sorunu çözmek için yaratıcı bir yaklaşım deneyelim... Bu konuyu farklı bir açıdan ele alalım mı?",
+        "intent": "general",
+        "confidence": 0.5,
+        "sentiment": "neutral"
+      },
+      {
+        "timestamp": "2025-08-12T11:44:54.836441",
+        "user_message": "sdfsadf",
+        "bot_response": "🌟 Harika bir nokta: Bu problemi farklı açıdan ele alalım... Bu konuyu farklı bir açıdan ele alalım mı?",
+        "intent": "general",
+        "confidence": 0.5,
+        "sentiment": "neutral"
+      }
+    ],
+    "entities": {
+      "names": [],
+      "places": [],
+      "things": [],
+      "dates": [],
+      "numbers": []
+    },
+    "topics": [],
+    "current_topic": "genel",
+    "topic_confidence": 0.0,
+    "logical_connections": [],
+    "questions_asked": [],
+    "assumptions": [],
+    "sentiment_history": [
+      {
+        "sentiment": "neutral",
+        "timestamp": "2025-08-12T11:43:30.739186"
+      },
+      {
+        "sentiment": "neutral",
+        "timestamp": "2025-08-12T11:44:54.836441"
+      }
+    ],
+    "intent_history": [
+      {
+        "intent": "general",
+        "confidence": 0.5,
+        "timestamp": "2025-08-12T11:43:30.739186"
+      },
+      {
+        "intent": "general",
+        "confidence": 0.5,
+        "timestamp": "2025-08-12T11:44:54.836441"
+      }
+    ],
+    "user_preferences": {},
+    "conversation_flow": [
+      "general",
+      "general"
+    ],
+    "context_switches": [],
+    "memory_anchors": {}
+  },
+  "session_1754988297359_12c67afa": {
+    "session_id": "session_1754988297359_12c67afa",
+    "created_at": "2025-08-12T11:44:57.489430",
+    "last_updated": "2025-08-12T11:44:57.489430",
+    "messages": [
+      {
+        "timestamp": "2025-08-12T11:44:57.489430",
+        "user_message": "sadfasdf",
+        "bot_response": "Bu problemi farklı açıdan ele alalım...",
+        "intent": "general",
+        "confidence": 0.5,
+        "sentiment": "neutral"
+      }
+    ],
+    "entities": {
+      "names": [],
+      "places": [],
+      "things": [],
+      "dates": [],
+      "numbers": []
+    },
+    "topics": [],
+    "current_topic": "genel",
+    "topic_confidence": 0.0,
+    "logical_connections": [],
+    "questions_asked": [],
+    "assumptions": [],
+    "sentiment_history": [
+      {
+        "sentiment": "neutral",
+        "timestamp": "2025-08-12T11:44:57.489430"
+      }
+    ],
+    "intent_history": [
+      {
+        "intent": "general",
+        "confidence": 0.5,
+        "timestamp": "2025-08-12T11:44:57.489430"
+      }
+    ],
+    "user_preferences": {},
+    "conversation_flow": [
+      "general"
+    ],
+    "context_switches": [],
+    "memory_anchors": {}
+  }
+}
