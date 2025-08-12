@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-AI Asistan Web Tasarım Yöneticisi
-Modern ve kullanıcı dostu arayüz
+Epsilon AI Web Design Manager
+Modern and user-friendly interface
 """
 
 from flask import render_template
@@ -14,8 +14,8 @@ class WebDesignManager:
     """Web tasarım yöneticisi"""
     
     def __init__(self):
-        self.title = "AI Asistan - Gelişmiş Yapay Zeka"
-        self.description = "Kişilik sistemi ile entegre gelişmiş AI asistan"
+        self.title = "Epsilon AI - Advanced AI Assistant"
+        self.description = "Advanced AI assistant with integrated personality system"
         self.version = "2.0"
     
     def render_main_page(self):
@@ -55,13 +55,13 @@ class WebDesignManager:
             <div class="col-lg-8">
                 <div class="chat-container p-4">
                     <div class="text-center mb-4">
-                        <h1><i class="fas fa-robot text-primary"></i> AI Asistan</h1>
-                        <p class="text-muted">Gelişmiş Yapay Zeka v{self.version}</p>
+                        <h1><i class="fas fa-rocket text-primary"></i> Epsilon AI</h1>
+                        <p class="text-muted">Advanced AI Assistant v{self.version}</p>
                     </div>
 
                     <div id="chatMessages" class="mb-3" style="height: 400px; overflow-y: auto;">
                                 <div class="message bot-message">
-                            <i class="fas fa-robot"></i> Merhaba! Ben AI Asistan. Size nasıl yardımcı olabilirim? 😊
+                            <i class="fas fa-rocket"></i> Merhaba! Ben Epsilon AI. Size nasıl yardımcı olabilirim? 🚀
                         </div>
                     </div>
 

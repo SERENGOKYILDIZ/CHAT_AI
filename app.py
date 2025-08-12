@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-AI Asistan - Gelişmiş Yapay Zeka Chatbot
-Ana Flask uygulaması - Merkezi kontrol noktası
+Epsilon AI - Advanced AI Chatbot
+Main Flask application - Central control point
 """
 
 from flask import Flask, request, jsonify, render_template, session
@@ -9,6 +9,7 @@ from pathlib import Path
 from core.smart_chatbot import SmartChatbot
 from core.web_design import WebDesignManager
 from core.logger import logger, log_info, log_error, log_performance, log_api_call, log_chat_interaction, log_chat_conversation, log_chat_session_summary
+from multi_chat_system import create_session, add_message, update_title, get_session_data, delete_session, get_all_sessions, get_session_stats
 import uuid
 import time
 import psutil
@@ -85,6 +86,17 @@ def home():
         log_error(e, context={"operation": "home_page_render"}, user_id="system")
         return "Hata oluştu", 500
 
+@app.route('/test')
+def test_page():
+    """Test sayfası"""
+    try:
+        log_info("🧪 Test sayfası ziyaret edildi")
+        with open('test_multi_chat.html', 'r', encoding='utf-8') as f:
+            return f.read()
+    except Exception as e:
+        log_error(e, context={"operation": "test_page_render"}, user_id="system")
+        return "Test sayfası yüklenemedi", 500
+
 @app.route('/chat', methods=['POST'])
 def chat():
     """Chat endpoint - Ana sohbet fonksiyonu"""
@@ -130,10 +142,22 @@ def chat():
                     'error': 'Chatbot initialization failed'
                 }), 500
         
-        # Mesaj işleme
-        response = chatbot.get_response(user_message, session_id)
-        personality_info = chatbot.get_personality_info()
-        stats = chatbot.get_stats()
+        # Multi chat system ile mesaj ekleme
+        try:
+            # User mesajını session'a ekle
+            add_message(session_id, "user", user_message)
+            
+            # Mesaj işleme
+            response = chatbot.get_response(user_message, session_id)
+            personality_info = chatbot.get_personality_info()
+            stats = chatbot.get_stats()
+            
+            # Bot cevabını session'a ekle
+            add_message(session_id, "bot", response)
+            
+        except Exception as e:
+            log_error(e, context={"operation": "multi_message_management"}, user_id=session_id)
+            # Continue with response even if message management fails
         
         # Response time hesaplama
         response_time = (time.time() - start_time) * 1000  # milliseconds
@@ -619,6 +643,101 @@ def log_session_summary():
         log_error(e, context={"operation": "session_summary_logging"}, user_id="system")
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/chat/sessions', methods=['GET'])
+def get_chat_sessions():
+    """Tüm chat session'ları döner"""
+    try:
+        sessions = get_all_sessions()
+        return jsonify({'success': True, 'sessions': sessions})
+    except Exception as e:
+        log_error(e, context={"operation": "get_chat_sessions"}, user_id="system")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/chat/sessions/<session_id>/messages', methods=['GET'])
+def get_session_messages(session_id):
+    """Belirli bir session'daki mesajları döner"""
+    try:
+        session_data = get_session_data(session_id)
+        if session_data:
+            return jsonify({'success': True, 'messages': session_data['messages']})
+        else:
+            return jsonify({'success': False, 'error': 'Session not found'}), 404
+    except Exception as e:
+        log_error(e, context={"operation": "get_session_messages"}, user_id="system")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/chat/sessions', methods=['POST'])
+def create_chat_session():
+    """Yeni chat session oluşturur"""
+    try:
+        data = request.get_json()
+        title = data.get('title', 'Yeni Sohbet')
+        
+        session_id = create_session(title)
+        
+        return jsonify({'success': True, 'session_id': session_id})
+    except Exception as e:
+        log_error(e, context={"operation": "create_chat_session"}, user_id="system")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/chat/sessions/<session_id>/title', methods=['PUT'])
+def update_session_title(session_id):
+    """Session başlığını günceller"""
+    try:
+        data = request.get_json()
+        title = data.get('title')
+        
+        if not title:
+            return jsonify({'success': False, 'error': 'Title required'}), 400
+        
+        success = update_title(session_id, title)
+        if success:
+            return jsonify({'success': True, 'message': 'Title updated'})
+        else:
+            return jsonify({'success': False, 'error': 'Session not found'}), 404
+            
+    except Exception as e:
+        log_error(e, context={"operation": "update_session_title"}, user_id="system")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/chat/sessions/<session_id>', methods=['DELETE'])
+def delete_chat_session(session_id):
+    """Chat session'ı siler"""
+    try:
+        success = delete_session(session_id)
+        
+        if success:
+            return jsonify({'success': True, 'message': 'Session deleted'})
+        else:
+            return jsonify({'success': False, 'error': 'Session not found'}), 404
+            
+    except Exception as e:
+        log_error(e, context={"operation": "delete_chat_session"}, user_id="system")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/chat/sessions/<session_id>/full', methods=['GET'])
+def get_full_session(session_id):
+    """Session ve tüm mesajlarını birlikte döner"""
+    try:
+        session_data = get_session_data(session_id)
+        if session_data:
+            return jsonify({'success': True, 'data': session_data})
+        else:
+            return jsonify({'success': False, 'error': 'Session not found'}), 404
+    except Exception as e:
+        log_error(e, context={"operation": "get_full_session"}, user_id="system")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/chat/stats', methods=['GET'])
+def get_chat_stats():
+    """Chat istatistiklerini döner"""
+    try:
+        stats = get_session_stats()
+        return jsonify({'success': True, 'stats': stats})
+    except Exception as e:
+        log_error(e, context={"operation": "get_chat_stats"}, user_id="system")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 # Error handlers
 @app.errorhandler(404)
 def not_found(error):
@@ -651,7 +770,7 @@ if __name__ == '__main__':
     # Log system status
     logger.log_system_status()
     
-    log_info("🚀 AI Asistan başlatılıyor...")
+    log_info("🚀 Epsilon AI başlatılıyor...")
     log_info("📱 Web arayüzü: http://localhost:5000")
     log_info("🔧 API endpoint: http://localhost:5000/chat")
     log_info("🔍 Debug endpoint: http://localhost:5000/api/debug/info")

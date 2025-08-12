@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi Chat System Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .result {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border-left: 4px solid #007bff;
+        }
+        .error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        .success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Multi Chat System Test</h1>
+    
+    <div class="test-section">
+        <h2>Session Management Tests</h2>
+        <button class="test-button" onclick="testCreateSession()">Create New Session</button>
+        <button class="test-button" onclick="testGetAllSessions()">Get All Sessions</button>
+        <button class="test-button" onclick="testGetSessionStats()">Get Stats</button>
+        <div id="session-results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Message Management Tests</h2>
+        <input type="text" id="sessionIdInput" placeholder="Session ID" style="width: 300px; padding: 8px;">
+        <button class="test-button" onclick="testAddMessage()">Add Test Message</button>
+        <button class="test-button" onclick="testGetSessionMessages()">Get Messages</button>
+        <button class="test-button" onclick="testUpdateTitle()">Update Title</button>
+        <div id="message-results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Full System Test</h2>
+        <button class="test-button" onclick="testFullSystem()">Run Full Test</button>
+        <div id="full-test-results"></div>
+    </div>
+
+    <script>
+        let currentTestSessionId = null;
+        
+        function showResult(containerId, message, type = 'info') {
+            const container = document.getElementById(containerId);
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            div.innerHTML = `
+                <strong>${type.toUpperCase()}:</strong> ${message}
+                <small>${new Date().toLocaleTimeString()}</small>
+            `;
+            container.appendChild(div);
+        }
+        
+        function clearResults(containerId) {
+            document.getElementById(containerId).innerHTML = '';
+        }
+        
+        async function testCreateSession() {
+            clearResults('session-results');
+            try {
+                const response = await fetch('/api/chat/sessions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title: 'Test Session ' + Date.now() })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    currentTestSessionId = data.session_id;
+                    showResult('session-results', `Session created: ${data.session_id}`, 'success');
+                } else {
+                    showResult('session-results', `Failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showResult('session-results', `Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testGetAllSessions() {
+            clearResults('session-results');
+            try {
+                const response = await fetch('/api/chat/sessions');
+                const data = await response.json();
+                
+                if (data.success) {
+                    showResult('session-results', `Found ${data.sessions.length} sessions`, 'success');
+                    showResult('session-results', `<pre>${JSON.stringify(data.sessions, null, 2)}</pre>`, 'info');
+                } else {
+                    showResult('session-results', `Failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showResult('session-results', `Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testGetSessionStats() {
+            clearResults('session-results');
+            try {
+                const response = await fetch('/api/chat/stats');
+                const data = await response.json();
+                
+                if (data.success) {
+                    showResult('session-results', `Stats retrieved successfully`, 'success');
+                    showResult('session-results', `<pre>${JSON.stringify(data.stats, null, 2)}</pre>`, 'info');
+                } else {
+                    showResult('session-results', `Failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showResult('session-results', `Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testAddMessage() {
+            clearResults('message-results');
+            const sessionId = document.getElementById('sessionIdInput').value || currentTestSessionId;
+            
+            if (!sessionId) {
+                showResult('message-results', 'Please provide a session ID', 'error');
+                return;
+            }
+            
+            try {
+                // Add user message
+                const userResponse = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: 'Test message ' + Date.now(),
+                        session_id: sessionId
+                    })
+                });
+                
+                const userData = await userResponse.json();
+                if (userData.success) {
+                    showResult('message-results', `Message sent successfully`, 'success');
+                    showResult('message-results', `<pre>${JSON.stringify(userData, null, 2)}</pre>`, 'info');
+                } else {
+                    showResult('message-results', `Failed: ${userData.error}`, 'error');
+                }
+            } catch (error) {
+                showResult('message-results', `Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testGetSessionMessages() {
+            clearResults('message-results');
+            const sessionId = document.getElementById('sessionIdInput').value || currentTestSessionId;
+            
+            if (!sessionId) {
+                showResult('message-results', 'Please provide a session ID', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/chat/sessions/${sessionId}/messages`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    showResult('message-results', `Found ${data.messages.length} messages`, 'success');
+                    showResult('message-results', `<pre>${JSON.stringify(data.messages, null, 2)}</pre>`, 'info');
+                } else {
+                    showResult('message-results', `Failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showResult('message-results', `Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testUpdateTitle() {
+            clearResults('message-results');
+            const sessionId = document.getElementById('sessionIdInput').value || currentTestSessionId;
+            
+            if (!sessionId) {
+                showResult('message-results', 'Please provide a session ID', 'error');
+                return;
+            }
+            
+            try {
+                const newTitle = 'Updated Title ' + Date.now();
+                const response = await fetch(`/api/chat/sessions/${sessionId}/title`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title: newTitle })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    showResult('message-results', `Title updated to: ${newTitle}`, 'success');
+                } else {
+                    showResult('message-results', `Failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showResult('message-results', `Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testFullSystem() {
+            clearResults('full-test-results');
+            showResult('full-test-results', 'Starting full system test...', 'info');
+            
+            try {
+                // 1. Create session
+                showResult('full-test-results', '1. Creating new session...', 'info');
+                const createResponse = await fetch('/api/chat/sessions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title: 'Full Test Session' })
+                });
+                
+                const createData = await createResponse.json();
+                if (!createData.success) {
+                    throw new Error('Failed to create session');
+                }
+                
+                const sessionId = createData.session_id;
+                showResult('full-test-results', `✅ Session created: ${sessionId}`, 'success');
+                
+                // 2. Send message
+                showResult('full-test-results', '2. Sending test message...', 'info');
+                const messageResponse = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: 'Hello from full test!',
+                        session_id: sessionId
+                    })
+                });
+                
+                const messageData = await messageResponse.json();
+                if (!messageData.success) {
+                    throw new Error('Failed to send message');
+                }
+                
+                showResult('full-test-results', '✅ Message sent successfully', 'success');
+                
+                // 3. Get session data
+                showResult('full-test-results', '3. Retrieving session data...', 'info');
+                const sessionResponse = await fetch(`/api/chat/sessions/${sessionId}/full`);
+                const sessionData = await sessionResponse.json();
+                
+                if (sessionData.success) {
+                    showResult('full-test-results', `✅ Session data retrieved: ${sessionData.data.session.message_count} messages`, 'success');
+                } else {
+                    throw new Error('Failed to retrieve session data');
+                }
+                
+                // 4. Update title
+                showResult('full-test-results', '4. Updating session title...', 'info');
+                const titleResponse = await fetch(`/api/chat/sessions/${sessionId}/title`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title: 'Updated Full Test Session' })
+                });
+                
+                const titleData = await titleResponse.json();
+                if (titleData.success) {
+                    showResult('full-test-results', '✅ Title updated successfully', 'success');
+                } else {
+                    throw new Error('Failed to update title');
+                }
+                
+                showResult('full-test-results', '🎉 Full system test completed successfully!', 'success');
+                
+            } catch (error) {
+                showResult('full-test-results', `❌ Test failed: ${error.message}`, 'error');
+            }
+        }
+        
+        // Auto-populate session ID when created
+        function updateSessionIdInput() {
+            if (currentTestSessionId) {
+                document.getElementById('sessionIdInput').value = currentTestSessionId;
+            }
+        }
+        
+        // Update input when session is created
+        const originalTestCreateSession = testCreateSession;
+        testCreateSession = async function() {
+            await originalTestCreateSession();
+            updateSessionIdInput();
+        };
+    </script>
+</body>
+</html>

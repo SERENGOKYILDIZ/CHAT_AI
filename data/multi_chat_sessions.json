@@ -1,0 +1,68 @@
+{
+  "sessions": [
+    {
+      "id": "session_1754986321494_8fe07939",
+      "title": "selam",
+      "created": "2025-08-12T11:12:01.494857",
+      "last_modified": "2025-08-12T11:12:04.860935",
+      "message_count": 2,
+      "is_active": true
+    },
+    {
+      "id": "session_1754986330782_bfe316dc",
+      "title": "nasılsın",
+      "created": "2025-08-12T11:12:10.782022",
+      "last_modified": "2025-08-12T11:13:02.520785",
+      "message_count": 4,
+      "is_active": true
+    }
+  ],
+  "messages": {
+    "session_1754986321494_8fe07939": [
+      {
+        "id": "msg_1754986322231_10e04d26",
+        "type": "user",
+        "content": "selam",
+        "timestamp": "2025-08-12T11:12:02.231272",
+        "session_id": "session_1754986321494_8fe07939"
+      },
+      {
+        "id": "msg_1754986324860_400207c0",
+        "type": "bot",
+        "content": "Sorunu çözmek için yaratıcı bir yaklaşım deneyelim...",
+        "timestamp": "2025-08-12T11:12:04.860935",
+        "session_id": "session_1754986321494_8fe07939"
+      }
+    ],
+    "session_1754986330782_bfe316dc": [
+      {
+        "id": "msg_1754986331158_42a5b27e",
+        "type": "user",
+        "content": "nasılsın",
+        "timestamp": "2025-08-12T11:12:11.158276",
+        "session_id": "session_1754986330782_bfe316dc"
+      },
+      {
+        "id": "msg_1754986331181_50953f71",
+        "type": "bot",
+        "content": "Farklı bir perspektiften bakarsak...",
+        "timestamp": "2025-08-12T11:12:11.181172",
+        "session_id": "session_1754986330782_bfe316dc"
+      },
+      {
+        "id": "msg_1754986380188_6a3405ec",
+        "type": "user",
+        "content": "adın ne",
+        "timestamp": "2025-08-12T11:13:00.188045",
+        "session_id": "session_1754986330782_bfe316dc"
+      },
+      {
+        "id": "msg_1754986382520_26a1c0c5",
+        "type": "bot",
+        "content": "Bu problemi farklı açıdan ele alalım... İlginç bir soru: ...",
+        "timestamp": "2025-08-12T11:13:02.520785",
+        "session_id": "session_1754986330782_bfe316dc"
+      }
+    ]
+  }
+}

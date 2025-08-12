@@ -1,6 +1,6 @@
 """
-AI Asistan Kişilik Sistemi
-Gelişmiş kişilik ve davranış yönetimi
+Epsilon AI Personality System
+Advanced personality and behavior management
 """
 
 import random
@@ -13,10 +13,10 @@ from pathlib import Path
 
 @dataclass
 class Personality:
-    """AI Asistan Kişilik Sınıfı"""
+    """Epsilon AI Personality Class"""
     
-    # Temel Kişilik Özellikleri
-    name: str = "AI Asistan"
+    # Basic Personality Traits
+    name: str = "Epsilon AI"
     version: str = "2.0"
     personality_type: str = "Yardımsever ve Bilgili"
     
