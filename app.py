@@ -9,7 +9,7 @@ from pathlib import Path
 from core.smart_chatbot import SmartChatbot
 from core.web_design import WebDesignManager
 from core.logger import logger, log_info, log_error, log_performance, log_api_call, log_chat_interaction, log_chat_conversation, log_chat_session_summary
-from multi_chat_system import create_session, add_message, update_title, get_session_data, delete_session, get_all_sessions, get_session_stats
+from core.multi_chat_system import create_session, add_message, update_title, get_session_data, delete_session, get_all_sessions, get_session_stats
 import uuid
 import time
 import psutil
@@ -91,7 +91,7 @@ def test_page():
     """Test sayfası"""
     try:
         log_info("🧪 Test sayfası ziyaret edildi")
-        with open('test_multi_chat.html', 'r', encoding='utf-8') as f:
+        with open('tests/test_multi_chat.html', 'r', encoding='utf-8') as f:
             return f.read()
     except Exception as e:
         log_error(e, context={"operation": "test_page_render"}, user_id="system")

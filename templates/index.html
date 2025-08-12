@@ -139,8 +139,10 @@
         }
 
         .tab-date {
-            font-size: 12px;
-            opacity: 0.7;
+            font-size: 11px;
+            opacity: 0.85;
+            line-height: 1.2;
+            color: var(--text-primary);
         }
 
         .tab-actions {
@@ -185,26 +187,7 @@
             color: var(--text-primary);
         }
 
-        .chat-actions {
-            display: flex;
-            gap: 12px;
-        }
 
-        .action-btn {
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .action-btn:hover {
-            background: #29b6f6;
-            transform: translateY(-1px);
-        }
 
         .chat-messages {
             flex: 1;
@@ -240,6 +223,7 @@
             justify-content: center;
             font-size: 18px;
             flex-shrink: 0;
+            border: 2px solid var(--border-color);
         }
 
         .message.user .message-avatar {
@@ -268,8 +252,10 @@
 
         .message-timestamp {
             font-size: 11px;
-            opacity: 0.6;
-            margin-top: 4px;
+            opacity: 0.9;
+            margin-top: 6px;
+            color: var(--text-primary);
+            font-weight: 500;
         }
 
         .chat-input-container {
@@ -460,41 +446,36 @@
 
         <!-- Main Chat Area -->
         <div class="main-chat">
-            <div class="chat-header">
-                <div class="chat-title" id="currentChatTitle">Epsilon AI</div>
-                <div class="chat-actions">
-                    <button class="action-btn" onclick="clearCurrentChat()">
-                        <i class="fas fa-trash"></i> Temizle
-                    </button>
-                </div>
+                                    <div class="chat-header">
+                            <div class="chat-title" id="currentChatTitle">Epsilon AI</div>
             </div>
 
-            <div class="chat-messages" id="chatMessages">
+                        <div class="chat-messages" id="chatMessages">
                 <!-- Welcome message will be shown here -->
-            </div>
-
-            <div class="typing-indicator" id="typingIndicator">
+                        </div>
+                        
+                        <div class="typing-indicator" id="typingIndicator">
                 <div class="loading-dots">AI yazıyor</div>
-            </div>
-
-            <div class="chat-input-container">
+                        </div>
+                        
+                        <div class="chat-input-container">
                 <div class="chat-input-wrapper">
-                    <textarea 
+                                <textarea 
                         id="chatInput" 
-                        class="chat-input" 
+                                    class="chat-input" 
                         placeholder="Mesajınızı yazın..."
-                        rows="1"
+                                    rows="1"
                         onkeydown="handleKeyDown(event)"
                         oninput="autoResize(this)"
-                    ></textarea>
+                                ></textarea>
                     <button class="send-btn" id="sendBtn" onclick="sendMessage()" disabled>
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
+                
     <script>
         // Global variables
         let currentSessionId = null;
@@ -587,10 +568,14 @@
             tab.onclick = () => switchToChat(sessionId);
             
             const createdDate = new Date(chatSessions[sessionId]?.created || Date.now()).toLocaleDateString('tr-TR', { 
-                month: 'numeric', 
-                day: 'numeric', 
-                hour: 'numeric', 
-                minute: 'numeric' 
+                year: 'numeric',
+                month: '2-digit', 
+                day: '2-digit'
+            });
+            
+            const createdTime = new Date(chatSessions[sessionId]?.created || Date.now()).toLocaleTimeString('tr-TR', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
             });
 
             const messageCount = chatSessions[sessionId]?.message_count || 0;
@@ -600,9 +585,10 @@
                 <i class="fas fa-comment tab-icon"></i>
                 <div class="tab-content">
                     <span class="tab-title">${title}</span>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; flex-direction: column; gap: 2px;">
                         <span class="tab-date">${createdDate}</span>
-                        <span class="tab-date" style="font-size: 10px; opacity: 0.5;">${messageCountText}</span>
+                        <span class="tab-date" style="font-size: 10px; opacity: 0.8;">${createdTime}</span>
+                        <span class="tab-date" style="font-size: 10px; opacity: 0.7;">${messageCountText}</span>
                     </div>
                 </div>
                 <div class="tab-actions">
@@ -683,7 +669,17 @@
             
             console.log('📝 Displaying', chatHistory.length, 'messages');
             chatHistory.forEach((messageObj, index) => {
-                addMessageToUI(messageObj.type, messageObj.content, messageObj.timestamp, false);
+                // Convert ISO timestamp to readable format if needed
+                let timestamp = messageObj.timestamp;
+                if (timestamp && timestamp.includes('T')) {
+                    // Convert ISO format to readable time
+                    timestamp = new Date(timestamp).toLocaleTimeString('tr-TR', { 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                    });
+                }
+                
+                addMessageToUI(messageObj.type, messageObj.content, timestamp, false);
                 console.log(`📝 Message ${index + 1}:`, messageObj.type, messageObj.content.substring(0, 30));
             });
             
@@ -693,13 +689,13 @@
 
         function showWelcomeMessage() {
             document.getElementById('currentChatTitle').textContent = 'Epsilon AI';
-            document.getElementById('chatMessages').innerHTML = `
+                document.getElementById('chatMessages').innerHTML = `
                 <div class="welcome-message">
                     <h1>🚀 Epsilon AI'ya Hoş Geldiniz</h1>
                     <p>Uzay teknolojisi ile geliştirilmiş gelişmiş yapay zeka asistanı. Sohbet edin, sorularınızı sorun ve yaratıcı çözümler bulun.</p>
-                </div>
-            `;
-            
+                    </div>
+                `;
+                
             currentSessionId = null;
             chatHistory = [];
         }
@@ -808,9 +804,9 @@
                 const response = await fetch('/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
+                    body: JSON.stringify({ 
                         message: message,
-                        session_id: currentSessionId
+                        session_id: currentSessionId 
                     })
                 });
                 
@@ -857,7 +853,7 @@
             const messageObj = { type, content, timestamp };
             chatHistory.push(messageObj);
             
-            // Add to UI
+            // Add to UI with timestamp
             addMessageToUI(type, content, timestamp, true);
             
             // Update session message count
@@ -878,7 +874,17 @@
                 welcomeMessage.remove();
             }
             
-            const messageDiv = document.createElement('div');
+            // Ensure timestamp is in readable format
+            let displayTimestamp = timestamp;
+            if (timestamp && timestamp.includes('T')) {
+                // Convert ISO format to readable time
+                displayTimestamp = new Date(timestamp).toLocaleTimeString('tr-TR', { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                });
+            }
+            
+                const messageDiv = document.createElement('div');
             messageDiv.className = `message ${type}`;
             
             const avatar = type === 'user' ? '👤' : '🤖';
@@ -887,7 +893,7 @@
                 <div class="message-avatar">${avatar}</div>
                 <div class="message-content">
                     ${content}
-                    <div class="message-timestamp">${timestamp}</div>
+                    <div class="message-timestamp">${displayTimestamp}</div>
                 </div>
             `;
             
@@ -921,16 +927,17 @@
                         hour: '2-digit', 
                         minute: '2-digit' 
                     })}</div>
-                </div>
-            `;
+                    </div>
+                `;
             
             chatMessages.appendChild(messageDiv);
             
-            // Add to history
-            const messageObj = { type, content, timestamp: new Date().toLocaleTimeString('tr-TR', { 
+            // Add to history with current timestamp
+            const currentTimestamp = new Date().toLocaleTimeString('tr-TR', { 
                 hour: '2-digit', 
                 minute: '2-digit' 
-            }) };
+            });
+            const messageObj = { type, content, timestamp: currentTimestamp };
             chatHistory.push(messageObj);
             
             // Update session message count
@@ -951,14 +958,14 @@
                     // Scroll to bottom during typing
                     chatMessages.scrollTop = chatMessages.scrollHeight;
                     
-                    // Random delay between characters (30-80ms)
-                    const delay = Math.random() * 50 + 30;
+                                            // Random delay between characters (15-40ms) - Faster animation
+                        const delay = Math.random() * 25 + 15;
                     setTimeout(typeNextCharacter, delay);
                 }
             }
             
-            // Start typing after a short delay
-            setTimeout(typeNextCharacter, 100);
+                                    // Start typing after a short delay
+                        setTimeout(typeNextCharacter, 50);
             
             // Scroll to bottom
             chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -1004,7 +1011,7 @@
                         }
                         
                         console.log('✅ Session title updated:', newTitle);
-                    } else {
+                } else {
                         console.error('❌ Failed to update title:', data.error);
                     }
                 } else {
@@ -1058,13 +1065,7 @@
             }
         }
 
-        function clearCurrentChat() {
-            if (currentSessionId && confirm('Bu sohbeti temizlemek istediğinizden emin misiniz?')) {
-                chatHistory = [];
-                displayChatHistory();
-                console.log('🧹 Current chat cleared');
-            }
-        }
+
 
         function clearChatArea() {
             // Clear chat messages area
